@@ -1,8 +1,9 @@
 import java.io.FileNotFoundException;
-
 import java.io.FileReader;
 import java.io.IOException;
- 
+import java.util.ArrayList;
+import java.util.function.ObjDoubleConsumer;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -11,7 +12,7 @@ import org.json.simple.parser.ParseException;
 
 public class readDBSample {
 	
-	 @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	    public static void main(String[] args) 
 	    {
 	        //JSON parser object to parse read file
@@ -21,9 +22,11 @@ public class readDBSample {
 	        {
 	            //Read JSON file
 	            Object obj = jsonParser.parse(reader);
+	            //System.out.println(obj);
+	           
 	 
 	            JSONArray clientList = (JSONArray) obj;
-	            
+	            	            
 	            //prints out the first array of the object
 	            //System.out.println(clientList.get(0));
 	             
@@ -38,26 +41,28 @@ public class readDBSample {
 	            e.printStackTrace();
 	        }
 	    }
+	
 	 
 	    private static void parseClientObject(JSONObject client) 
 	    {
+	    	
+	    	
 	    	//Get client object within list
 	        JSONObject clientObject = (JSONObject) client.get("client");
-	    
-	        
+	   	        
 	        //get location object within list
 	        JSONObject location = (JSONObject) clientObject.get("visitedlocation");
 	        
+	     
 	        
 	        //if else to print only if have "Jennie"
 //	        String name = (String) clientObject.get("name");    
-//	        if( name.equals("Jennie")) {
-//		        System.out.println(name);
+//	        if( name.equals("Jennie")) {        
 //	        }else {
 //		        System.out.println("No Jennie");
 //	        }
 	         
-	        //Get client name
+//	        //Get client name
 	        String name = (String) clientObject.get("name");    
 	        System.out.println(name);
 	         

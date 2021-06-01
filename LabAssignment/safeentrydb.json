@@ -2,7 +2,7 @@
     {
         "client": {
             "name": "Jennie",
-            "nric": "S999999D",
+            "nric": "S999991D",
             "visitedlocation":{
                 "place" : "suntec",
                 "date"  :"test",
