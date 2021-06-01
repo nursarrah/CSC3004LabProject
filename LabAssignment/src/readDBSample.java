@@ -29,9 +29,22 @@ public class readDBSample {
 	            	            
 	            //prints out the first array of the object
 	            //System.out.println(clientList.get(0));
-	             
+	            
+	            
+	            //same thing but without gg through parseClientObject
+	            for (int i=0; i < clientList.size(); i++) {
+	            	JSONObject clientObject = (JSONObject) clientList.get(i);
+	            	JSONObject client = (JSONObject) clientObject.get("client");
+	            	JSONObject location = (JSONObject) client.get("visitedlocation");
+	            	String place = (String) location.get("place");  
+	    	        System.out.println(i);
+	    	        System.out.println(place);
+	            }
+
+	            
+	            
 	            //Iterate over employee array
-	            clientList.forEach( emp -> parseClientObject( (JSONObject) emp ) );
+	           // clientList.forEach( emp -> parseClientObject( (JSONObject) emp ) );
 	 
 	        } catch (FileNotFoundException e) {
 	            e.printStackTrace();
@@ -42,8 +55,9 @@ public class readDBSample {
 	        }
 	    }
 	
-	 
-	    private static void parseClientObject(JSONObject client) 
+
+
+		public static void parseClientObject(JSONObject client) 
 	    {
 	    	
 	    	
@@ -52,17 +66,9 @@ public class readDBSample {
 	   	        
 	        //get location object within list
 	        JSONObject location = (JSONObject) clientObject.get("visitedlocation");
-	        
-	     
-	        
-	        //if else to print only if have "Jennie"
-//	        String name = (String) clientObject.get("name");    
-//	        if( name.equals("Jennie")) {        
-//	        }else {
-//		        System.out.println("No Jennie");
-//	        }
+	       
 	         
-//	        //Get client name
+	        //Get client name
 	        String name = (String) clientObject.get("name");    
 	        System.out.println(name);
 	         

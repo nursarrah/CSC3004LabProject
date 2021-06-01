@@ -5,9 +5,9 @@
             "nric": "S999991D",
             "visitedlocation":{
                 "place" : "suntec",
-                "date"  :"test",
+                "date"  :"February 09, 2004",
                 "checkInTime" :"test"
-                "checkOutTime" :"test"
+                "checkOutTime" : null
             }
         }
     },
