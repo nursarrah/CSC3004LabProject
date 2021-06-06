@@ -2,12 +2,12 @@
     {
         "client": {
             "name": "Jennie",
-            "nric": "S999991D",
+            "nric": "S999999D",
             "visitedlocation":{
                 "place" : "suntec",
-                "date"  :"February 09, 2004",
+                "date"  :"2021-06-02",
                 "checkInTime" :"test"
-                "checkOutTime" : null
+                "checkOutTime" :"test"
             }
         }
     },
@@ -17,11 +17,10 @@
             "nric": "S999999D",
             "visitedlocation":{
                 "place" : "suntec",
-                "date"  :"test",
+                "date"  :"2021-06-02",
                 "checkInTime" :"test"
                 "checkOutTime" :"test"
             }
         }
     }
 ]
-
