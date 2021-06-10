@@ -7,6 +7,8 @@ import java.util.Scanner;
 
 public class remoteaccessclient {
 	  public static void main(String[] args) {
+		  String location, date, inTime, outTime;
+
 
 //	      //use localhost if running the server locally or use IP address of the server
 	       String reg_host = "localhost";
@@ -24,14 +26,31 @@ public class remoteaccessclient {
 		    // Create the reference to the remote object through the remiregistry
 //			calculator c = (calculator)
 //					Naming.lookup("rmi://localhost/CalculatorService");
-			login login = (login) Naming.lookup("rmi://localhost/RemoteAccessService");
+			remoteaccess remoteaccess = (remoteaccess) Naming.lookup("rmi://localhost/RemoteAccessService");
 
 	      //Naming.lookup("rmi://localhost/CalculatorService");
+			
+			Scanner input = new Scanner(System.in);
+		    	System.out.println("Enter location: ");
+		    	String inputLocation = input.nextLine();
+		    	remoteaccess.setLocation(inputLocation);
+		    	System.out.println("Enter Date: ");
+		    	String inputDate = input.nextLine();
+		    	remoteaccess.setDate(inputDate);
+		    	System.out.println("Enter Check In Time: ");
+		    	String inputCheckInTime = input.nextLine();
+		    	remoteaccess.setCheckInTime(inputCheckInTime);
+		    	System.out.println("Enter Check Out Time: ");
+		    	String inputCheckOutTime = input.nextLine();
+		    	remoteaccess.setCheckOutTime(inputCheckOutTime);
+		    			    	
+		    	location = remoteaccess.getLocation();
+		    	date = remoteaccess.getDate();
+		    	inTime = remoteaccess.getCheckInTime();
+		    	outTime = remoteaccess.getCheckOutTime();
+		    	System.out.println("The following information has been added to the database: " + location + " " + date + " " + inTime + " " + outTime);
+		    	remoteaccess.addLocationToDB(location, date, inTime, outTime);
 
-
-		    
-			Scanner myObj = new Scanner(System.in);  // Create a Scanner object
-		    
 		    
 	  }
 	  // Catch the exceptions that may occur - rubbish URL, Remote exception
