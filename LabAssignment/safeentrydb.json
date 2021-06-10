@@ -1,1 +1,28 @@
-[{"visitedlocation":[{"date":"February 09, 2004","checkOutTime":null,"checkInTime":"test","place":"suntec"},{"date":"2021-06-10","checkInTime":"14:22:36.886961","place":"hool"},{"date":"2021-06-10","checkInTime":"14:36:07.778586","place":"hi"},{"date":"2021-06-10","checkInTime":"14:37:37.443983","place":"huo"},{"date":"2021-06-10","checkInTime":"14:39:10.876108","place":"hguy"},{"date":"2021-06-10","checkInTime":"14:40:03.176133","place":"yg"}],"name":"Jennie","nric":"S999991D"},{"visitedlocation":[{"date":"test","checkOutTime":"test","checkInTime":"test","place":"suntec"}],"name":"Lalisa","nric":"S999999D"}]
+{
+	"client": [
+		{
+			"visitedlocation": [
+				{
+					"date": "February 09, 2004",
+					"checkOutTime": "",
+					"checkInTime": "test",
+					"place": "suntec"
+				}
+			],
+			"name": "Jennie",
+			"nric": "S999991D"
+		},
+		{
+			"visitedlocation": [
+				{
+					"date": "test",
+					"checkOutTime": "test",
+					"checkInTime": "test",
+					"place": "suntec"
+				}
+			],
+			"name": "Lalisa",
+			"nric": "S999999D"
+		}
+	]
+}
