@@ -1,7 +1,10 @@
 
 
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -10,6 +13,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+import org.json.simple.parser.JSONParser;
 
 
 public class safeentryclient {
@@ -77,11 +85,11 @@ public class safeentryclient {
 //				file.flush();
 //				file.close();
 //	    	    System.out.println("Successfully Checked in");
-	    	    System.out.println("Name: Bob" + "\n" +
-	    	    					" , NRIC: "+ login.getNRIC() + "\n" +
-	    	    					" , Location: " + login.getLocation() + "\n" +
-	    	    					" , Date: " + login.getDate().toString() + "\n" +
-	    	    					" , Check in Time : " + login.getCheckInTime().toString());
+//	    	    System.out.println("Name: Bob" + "\n" +
+//	    	    					" , NRIC: "+ login.getNRIC() + "\n" +
+//	    	    					" , Location: " + login.getLocation() + "\n" +
+//	    	    					" , Date: " + login.getDate().toString() + "\n" +
+//	    	    					" , Check in Time : " + login.getCheckInTime().toString());
 	    		
 //	    	} 
 //	    	catch (IOException e) {
@@ -104,20 +112,20 @@ public class safeentryclient {
 	    		String groupNric = input.nextLine();
 	    		// add nric to array(?)
 	    		login.setNRIC(groupNric);
-	    		try {
-	    			// add location, date, check in time detail to file
-		    		FileWriter myWriter = new FileWriter("C:\\Users\\Amirah\\eclipse-workspace\\CS3004\\data.txt", true);
-		            String formatDateTime = login.getCheckInTime().format(format);  
-		    	    myWriter.write(login.getNRIC() + "," + login.getLocation() + "," + formatDateTime+"\n");
-		    	    myWriter.close();
-			    	// display names, nric, location and check in time
-			    	//display name and nric
-			    	//display location, date and time
-	    		}
-		    	catch (IOException e) {
-		    	      System.out.println("An error occurred.");
-		    	      e.printStackTrace();
-		    	 }
+//	    		try {
+//	    			// add location, date, check in time detail to file
+//		    		FileWriter myWriter = new FileWriter("C:\\Users\\Amirah\\eclipse-workspace\\CS3004\\data.txt", true);
+//		            String formatDateTime = login.getCheckInTime().format(format);  
+//		    	    myWriter.write(login.getNRIC() + "," + login.getLocation() + "," + formatDateTime+"\n");
+//		    	    myWriter.close();
+//			    	// display names, nric, location and check in time
+//			    	//display name and nric
+//			    	//display location, date and time
+//	    		}
+//		    	catch (IOException e) {
+//		    	      System.out.println("An error occurred.");
+//		    	      e.printStackTrace();
+//		    	 }
 	    	}
 	    }
 	    else {
@@ -147,7 +155,10 @@ public class safeentryclient {
             System.out.println();
             System.out.println("java.lang.ArithmeticException");
             System.out.println(ae);
-        }
+        } catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
 }
