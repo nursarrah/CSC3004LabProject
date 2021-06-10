@@ -8,7 +8,7 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 		// TODO Auto-generated constructor stub
 	}
 	 @SuppressWarnings("unchecked")
-	public String userLogin(String a) {
+	public String userLogin(String a) throws java.rmi.RemoteException {
 	      String nric = a;
 	      String name = " ";
 	      switch (nric) {
