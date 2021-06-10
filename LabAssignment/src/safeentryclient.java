@@ -12,20 +12,23 @@ import java.rmi.RemoteException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 
 public class safeentryclient {
     public static void main(String[] args) {
     	
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy,HH:mm:ss");
 		String name, nric, location, date, inTime;
-
+		ArrayList<String> nrics = new ArrayList<String>();
+		
 //      //use localhost if running the server locally or use IP address of the server
        String reg_host = "localhost";
        int reg_port = 1099;
@@ -42,7 +45,7 @@ public class safeentryclient {
 		login login = (login) Naming.lookup("rmi://localhost/LoginService");
 
 		Scanner input = new Scanner(System.in);
-	    // Input user NRIC upon login
+		
 		System.out.println("Enter NRIC to login: ");
 	    String userNRIC = input.nextLine();
 	    login.setNRIC(userNRIC);
@@ -50,52 +53,25 @@ public class safeentryclient {
         
 	    System.out.println("Individual Check In? [Y/N]");
 	    String choice = input.nextLine();
-	    if(choice.equals("Y"))
-	    {
+	    if(choice.equals("Y")) {
+	    	
 	    	System.out.println("Enter location: ");
 	    	String inputLocation = input.nextLine();
 	    	login.setLocation(inputLocation);
 	    	login.setDate(LocalDate.now());
 	    	login.setCheckInTime(LocalTime.now());
-//	    	try {
+	    	
+	    	String formattedDate = login.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG));
+	    	String formattedTime = login.getCheckInTime().format(DateTimeFormatter.ofPattern("HH:mm"));
 	    	
 	    	nric = login.getNRIC();
 	    	location = login.getLocation();
-	    	date = login.getDate().toString();
-	    	inTime = login.getCheckInTime().toString();
-	    	System.out.println(nric + " " + location + " " + date + " " + inTime);
-	    	login.addLocationToDB(nric, location, date, inTime);
-	            		            
-//	    		Reader reader = new FileReader("safeentrydb.json");
-//	    		JSONParser parser = new JSONParser();
-//	    		
-//	    		JSONArray users = (JSONArray) JSONValue.parse(reader);
-//	    		JSONObject firstUser = (JSONObject) users.get(0);
-//
-//	    		JSONArray getVisitedlocation = (JSONArray) firstUser.get("visitedlocation");
-//	    		JSONObject visitedLocation = new JSONObject();
-//	    		visitedLocation.put("place", login.getLocation());
-//	    		visitedLocation.put("date", login.getDate().toString());
-//		        visitedLocation.put("checkInTime", login.getCheckInTime().toString());
-//		        
-//		        getVisitedlocation.add(visitedLocation);
-//		        
-//		        Writer file = new FileWriter("safeentrydb.json");
-//		        users.writeJSONString(file);
-//				file.flush();
-//				file.close();
-//	    	    System.out.println("Successfully Checked in");
-//	    	    System.out.println("Name: Bob" + "\n" +
-//	    	    					" , NRIC: "+ login.getNRIC() + "\n" +
-//	    	    					" , Location: " + login.getLocation() + "\n" +
-//	    	    					" , Date: " + login.getDate().toString() + "\n" +
-//	    	    					" , Check in Time : " + login.getCheckInTime().toString());
+	    	date = formattedDate;
+	    	inTime = formattedTime;
 	    		
-//	    	} 
-//	    	catch (IOException e) {
-//	    	      System.out.println("An error occurred.");
-//	    	      e.printStackTrace();
-//	    	 }
+	    	login.addLocationToDB(nric, location, date, inTime);
+	    	login.viewHistory(nric);
+	    		
 	    }
 	    else if(choice.equals("N"))
 	    {
@@ -103,29 +79,17 @@ public class safeentryclient {
 	    	String inputLocation = input.nextLine();
 	    	login.setLocation(inputLocation);
 	    	login.setCheckInTime(LocalTime.now());
-	    	// enter NRIC(s)
+
 	    	System.out.println("Enter Number of Group: ");
 	    	String inputNoOfPeople = input.nextLine();
 	    	int noOfPeople = Integer.parseInt(inputNoOfPeople);
 	    	System.out.println("Enter NRIC(s): ");
 	    	for(int i=0;i<noOfPeople;i++) {
 	    		String groupNric = input.nextLine();
-	    		// add nric to array(?)
 	    		login.setNRIC(groupNric);
-//	    		try {
-//	    			// add location, date, check in time detail to file
-//		    		FileWriter myWriter = new FileWriter("C:\\Users\\Amirah\\eclipse-workspace\\CS3004\\data.txt", true);
-//		            String formatDateTime = login.getCheckInTime().format(format);  
-//		    	    myWriter.write(login.getNRIC() + "," + login.getLocation() + "," + formatDateTime+"\n");
-//		    	    myWriter.close();
-//			    	// display names, nric, location and check in time
-//			    	//display name and nric
-//			    	//display location, date and time
-//	    		}
-//		    	catch (IOException e) {
-//		    	      System.out.println("An error occurred.");
-//		    	      e.printStackTrace();
-//		    	 }
+	    		nrics.add(groupNric);
+	    		
+	    		
 	    	}
 	    }
 	    else {
@@ -134,8 +98,6 @@ public class safeentryclient {
 	    
   }
   // Catch the exceptions that may occur - rubbish URL, Remote exception
-	// Not bound exception or the arithmetic exception that may occur in
-	// one of the methods creates an arithmetic error (e.g. divide by zero)
 	catch (MalformedURLException murle) {
             System.out.println();
             System.out.println("MalformedURLException");
@@ -155,10 +117,7 @@ public class safeentryclient {
             System.out.println();
             System.out.println("java.lang.ArithmeticException");
             System.out.println(ae);
-        } catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        }
     }
 
 }
