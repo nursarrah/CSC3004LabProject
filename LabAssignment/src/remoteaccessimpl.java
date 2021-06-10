@@ -1,3 +1,4 @@
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -56,31 +57,33 @@ public class remoteaccessimpl extends java.rmi.server.UnicastRemoteObject implem
 	@SuppressWarnings("unchecked")
 	public void addLocationToDB(String location, String date, String checkedInTime, String checkedOutTime) throws java.rmi.RemoteException {
 		
+		JSONObject details = new JSONObject();
+		 
+//			Reader reader = new FileReader("affectedclientsdb.json");
+		
+//    		JSONArray users = (JSONArray) JSONValue.parse(reader);
+//    		JSONObject firstUser = (JSONObject) users.get(0);
+//			
+//    		JSONArray getVisitedlocation = (JSONArray) firstUser.get("visitedlocation");
+//    		JSONObject visitedLocation = new JSONObject();
+		
+		details.put("place", location);
+		details.put("date", date);
+		details.put("checkInTime", checkedInTime); 
+		details.put("checkOutTime", checkedOutTime);
+		
+		JSONObject detailsObject = new JSONObject(); 
+		detailsObject.put("details", details);
+		
+		JSONArray detailsList = new JSONArray();
+		detailsList.add(detailsObject);
+      
 		try {
-			Reader reader = new FileReader("affectedclientsdb.json");
-			
-    		JSONArray users = (JSONArray) JSONValue.parse(reader);
-    		JSONObject firstUser = (JSONObject) users.get(0);
-			
-    		JSONArray getVisitedlocation = (JSONArray) firstUser.get("visitedlocation");
-    		JSONObject visitedLocation = new JSONObject();
-    		
-    		visitedLocation.put("place", location);
-    		visitedLocation.put("date", date);
-	        visitedLocation.put("checkInTime", checkedInTime); 
-	        visitedLocation.put("checkOutTime", checkedOutTime);
-	        getVisitedlocation.add(visitedLocation);
-			try {
-				Writer file = new FileWriter("affectedclientsdb.json");
-				users.writeJSONString(file);
-				file.flush();
-				file.close();
-			} catch (IOException e) {
-				System.out.println("An error occurred.Please try again.");
-				e.printStackTrace();
-			}  
-			
-		} catch (FileNotFoundException e) {
+			Writer file = new FileWriter("affectedclientsdb.json");
+			file.write(detailsList.toJSONString());
+			file.flush();
+			file.close();
+		} catch (IOException e) {
 			System.out.println("An error occurred.Please try again.");
 			e.printStackTrace();
 		}	

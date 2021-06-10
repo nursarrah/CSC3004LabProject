@@ -1,4 +1,3 @@
-
 public interface remoteaccess extends java.rmi.Remote {
 	
     public void setLocation(String location)
@@ -31,3 +30,4 @@ public interface remoteaccess extends java.rmi.Remote {
 
 
 }
+

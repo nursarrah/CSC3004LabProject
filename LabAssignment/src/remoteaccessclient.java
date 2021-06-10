@@ -1,4 +1,5 @@
 
+
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -31,10 +32,11 @@ public class remoteaccessclient {
 	      //Naming.lookup("rmi://localhost/CalculatorService");
 			
 			Scanner input = new Scanner(System.in);
+				System.out.println("Please provide necessary input for declaration. ");
 		    	System.out.println("Enter location: ");
 		    	String inputLocation = input.nextLine();
 		    	remoteaccess.setLocation(inputLocation);
-		    	System.out.println("Enter Date: ");
+		    	System.out.println("Enter Date(yyyy-mm-dd): ");
 		    	String inputDate = input.nextLine();
 		    	remoteaccess.setDate(inputDate);
 		    	System.out.println("Enter Check In Time: ");
