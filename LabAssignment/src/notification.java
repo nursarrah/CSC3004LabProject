@@ -1,4 +1,5 @@
-import java.io.File;
+import java.io.File
+;
 import java.io.FileNotFoundException;
 
 import java.io.FileReader;
@@ -18,14 +19,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  
 
 public class notification {
-	
-	class MyClass
-	{
-	@JsonProperty
-	private String Name;
-	@JsonProperty
-	private String CreationDate;
-	}
 
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) throws IOException, ParseException {
