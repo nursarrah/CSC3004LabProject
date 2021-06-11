@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import org.json.simple.JSONArray;
@@ -29,6 +30,34 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	@SuppressWarnings("unchecked")
+	public String userLogin(String a) throws java.rmi.RemoteException {
+	      String nric = a;
+	      String name = " ";
+	      switch (nric) {
+	      case "S999991D":
+	    	  return "Jennie";
+	      case "S999999D":
+	    	  return "Lalisa";
+	      default:
+	    	  return "No NRIC in database.";  
+     }
+	
+//	      FileReader reader = new FileReader("safeentrydb.json");
+//	        JSONParser jsonParser = new JSONParser();
+//	        Object safeEntryObj = jsonParser.parse(reader);
+//	        JSONArray clientList = (JSONArray) safeEntryObj;
+//	        for (int i=0; i < clientList.size(); i++) {
+//	        	JSONObject clientObject = (JSONObject) clientList.get(i);
+//	        	JSONObject client = (JSONObject) clientObject.get("client");
+//	        	String clientnric = (String) clientObject.get("nric");  
+//	        	if (clientnric.equals(a)) {
+//	        		String clientname = (String) clientObject.get("name"); 
+//	        		name = clientname;
+//	        	}
+//	        }
+//	        return name;
+	 }
 	public void setName(String name) throws java.rmi.RemoteException{
 		this.name=name;
 	}
@@ -79,13 +108,12 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 	public LocalDate getDate() throws java.rmi.RemoteException{
 		return date;
 	}
-	/**
-	 * addLocationToDB method 
-	 * 
-	 */
+	// Add Check In details (place, date, check in time) to database and returns success or failure
 	@SuppressWarnings("unchecked")
-	public void addLocationToDB(String nric, String location, String date, String checkedInTime) throws java.rmi.RemoteException {
+	public boolean addLocationToDB(String nric, String location, String date, String checkedInTime) throws java.rmi.RemoteException {
 		
+		boolean success = false;
+
 		try {
 			reader = new FileReader("safeentrydb.json");
 			
@@ -110,29 +138,24 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 				data.writeJSONString(file);
 				file.flush();
 				file.close();
-				System.out.println("Successfully Checked in");
-		    	System.out.println("Name:" + userName + "\n" +
-    			" , NRIC: "+ userNRIC + "\n" +
-    			" , Location: " + location + "\n" +
-    			" , Date: " + date + "\n" +
-    			" , Check in Time : " + checkedInTime);
+				success = true;
 			} catch (IOException e) {
 				System.out.println("An error occurred.Please try again.");
-				e.printStackTrace();
-			}  
+				success = false;
+			}
 			
 		} catch (FileNotFoundException e) {
 			System.out.println("An error occurred.Please try again.");
-			e.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		} catch (ParseException e1) {
-			e1.printStackTrace();
-		}	
+		} catch (IOException e) {
+			System.out.println("An error occurred.Please try again.");
+		} catch (ParseException e) {
+			System.out.println("An error occurred.Please try again.");
+		}
+		return success;
 	}
-	
-	public void viewHistory(String nric) throws java.rmi.RemoteException {
-		
+	// Return list of Visited Locations of a user
+	public ArrayList<String> viewHistory(String nric) throws java.rmi.RemoteException {
+		ArrayList<String> historyList = new ArrayList<>();
 		try {
 			reader = new FileReader("safeentrydb.json");
 			JSONObject data = (JSONObject) parser.parse(reader);
@@ -150,8 +173,8 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 				String displayDate = (String) getVisitedLocation.get("date");
 				String displayCheckInTime = (String) getVisitedLocation.get("checkInTime");
 				String displayCheckOutTime = (String) getVisitedLocation.get("checkOutTime");
-				System.out.println("Date: " + displayDate + "\n" + displayPlace + " " + displayCheckInTime + "-" + displayCheckOutTime);
-				System.out.println("=====================================================================");
+				String visitedPlace = "\n" + displayDate + " " + displayPlace + " " + displayCheckInTime + "-" + displayCheckOutTime;
+				historyList.add(visitedPlace);
 	        }
 		
 		} catch (FileNotFoundException e) {
@@ -160,7 +183,8 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 			e.printStackTrace();
 		} catch (ParseException e) {
 			e.printStackTrace();
-		}		
+		}
+		return historyList;
 		
 	}
 }

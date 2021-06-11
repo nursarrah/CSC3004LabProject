@@ -1,7 +1,12 @@
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 
-public interface login extends java.rmi.Remote{	 
+public interface login extends java.rmi.Remote{
+	
+	public String userLogin(String userName)
+			throws java.rmi.RemoteException;
+	
 	public void setName(String name)
 			throws java.rmi.RemoteException;
 		
@@ -41,9 +46,9 @@ public interface login extends java.rmi.Remote{
     public void enterLocation()
     		throws java.rmi.RemoteException;
     
-    public void addLocationToDB(String nric, String location, String date, String checkedInTime)
+    public boolean addLocationToDB(String nric, String location, String date, String checkedInTime)
     		throws java.rmi.RemoteException;
     
-    public void viewHistory(String nric)
+    public ArrayList<String> viewHistory(String nric)
     		throws java.rmi.RemoteException;
 }
