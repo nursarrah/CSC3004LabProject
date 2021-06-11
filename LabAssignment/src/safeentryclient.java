@@ -1,10 +1,4 @@
 
-
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -16,17 +10,9 @@ import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-
 public class safeentryclient {
     public static void main(String[] args) {
     	
-		String name, nric, location, date, inTime;
 		ArrayList<String> nrics = new ArrayList<String>();
 	    final String INPUT_PROMPT = "Please key in a number:"
                 + "\n1 To Check In"
