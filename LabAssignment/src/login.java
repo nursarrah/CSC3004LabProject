@@ -3,7 +3,10 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 public interface login extends java.rmi.Remote{
-	 
+	
+	public String userLogin(String userName)
+			throws java.rmi.RemoteException;
+	
 	public void setName(String name)
 			throws java.rmi.RemoteException;
 		
