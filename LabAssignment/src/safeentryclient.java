@@ -73,7 +73,7 @@ public class safeentryclient {
         	    System.out.println("Individual Check In? [Y/N]");
         	    String choice = input.nextLine();
         	    
-        	    if(choice.equals("Y")) {
+        	    if(choice.equalsIgnoreCase("Y")) {
         	    	
         	    	System.out.println("Enter location: ");
         	    	String inputLocation = input.nextLine();
@@ -97,7 +97,7 @@ public class safeentryclient {
         	    		System.out.println("Please try again");
         	    	}
 
-        	    } else if(choice.equals("N")) {
+        	    } else if(choice.equalsIgnoreCase("N")) {
         	    	
         	    	System.out.println("Enter location: ");
         	    	String inputLocation = input.nextLine();
@@ -112,12 +112,22 @@ public class safeentryclient {
         	    	String inputNoOfPeople = input.nextLine();
         	    	int noOfPeople = Integer.parseInt(inputNoOfPeople);
         	    	System.out.println("Enter NRIC(s): ");
-        	    	for(int i=0;i<noOfPeople;i++) {
+        	    	for(int i=0; i<noOfPeople; i++) {
         	    		String groupNric = input.nextLine();
         	    		login.setNRIC(groupNric);
-        	    		nrics.add(groupNric);	    		
-        	    		
+        	    		nrics.add(login.getNRIC());
         	    	}
+        	    	
+        	    	for (int n=0; n < nrics.size(); n++) {
+         	    		if(login.addLocationToDB(nrics.get(n), login.getLocation(), formattedDate, formattedTime) == true) {
+         	    			System.out.println("Successfully Checked in");
+                		    System.out.println("Name:" + "bob" + "\nNRIC: "+ nrics.get(n));                		    	              		    	
+                	    }
+        	    	}
+        	    	System.out.println("Location: " + login.getLocation() + "\nDate: " + formattedDate + "\nCheck in Time : " + formattedTime);
+        	    	// Back to Main Menu
+        	    	System.out.println("\n[B] to back to Main Menu");
+        	    	userInput = input.nextLine();
         	    }
         	    else {
         	    	System.out.println("Invalid Input");
