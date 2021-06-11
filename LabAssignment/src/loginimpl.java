@@ -106,7 +106,7 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 	}
 	// Add Check In details (place, date, check in time) to database and returns success or failure
 	@SuppressWarnings("unchecked")
-	public boolean addLocationToDB(String nric, String location, String date, String checkedInTime) throws java.rmi.RemoteException {
+	public boolean checkIn(String nric, String location, String date, String checkedInTime) throws java.rmi.RemoteException {
 		
 		boolean success = false;
 
@@ -138,6 +138,54 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 						 success = true;
 					 } catch (IOException e) {
 						 System.out.println("An error occurred.Please try again.");
+						 success = false;
+					}
+				 }
+			 }     
+			
+		} catch (FileNotFoundException e) {
+			System.out.println("An error occurred.Please try again.");
+		} catch (IOException e) {
+			System.out.println("An error occurred.Please try again.");
+		} catch (ParseException e) {
+			System.out.println("An error occurred.Please try again.");
+		}
+		return success;
+	}
+	// Add Check Out details (check out time) to database and returns success or failure
+	@SuppressWarnings("unchecked")
+	public boolean checkOut(String nric, String location, String date, String checkedInTime, String checkedOutTime) throws java.rmi.RemoteException {
+		boolean success = false;
+
+		try {
+			reader = new FileReader("safeentrydb.json");
+			JSONObject data = (JSONObject) parser.parse(reader);
+			JSONArray client = (JSONArray) data.get("client");
+			
+			// loop through array of client
+			 for(int i = 0; i < client.size(); i++) {
+				 JSONObject getUser  = (JSONObject) client.get(i);
+				 String userNRIC = (String) getUser.get("nric");
+				 // if nric in database matches user account, add check in details to db
+				 if(userNRIC.equals(nric)) {
+					 JSONArray visitedLocation = (JSONArray) getUser.get("visitedlocation");
+					 for (int c = 0; c < visitedLocation.size();c++) {
+						 JSONObject getVisitedLocation = (JSONObject) visitedLocation.get(c);
+						 String getLocation = (String) getVisitedLocation.get("place");
+						 String getCheckInTime = (String) getVisitedLocation.get("checkInTime");
+						 String getDate = (String) getVisitedLocation.get("date");
+						 if(getLocation.equals(location) && getCheckInTime.equals(checkedInTime) && getDate.equals(date)) {
+							 getVisitedLocation.put("checkOutTime", checkedOutTime); 
+						 }
+					 }					 
+					 try {
+						 Writer file = new FileWriter("safeentrydb.json");
+						 data.writeJSONString(file);
+						 file.flush();
+						 file.close();
+						 success = true;
+					 } catch (IOException e) {
+						 System.out.println("An error occurred. Please try again.");
 						 success = false;
 					}
 				 }

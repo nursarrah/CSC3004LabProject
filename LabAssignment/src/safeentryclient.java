@@ -63,21 +63,35 @@ public class safeentryclient {
         	    	
         	    	System.out.println("Enter location: ");
         	    	String inputLocation = input.nextLine();
-        	    	login.setLocation(inputLocation);
-        	    	login.setDate(LocalDate.now());
-        	    	login.setCheckInTime(LocalTime.now());
+        	    	login.setLocation(inputLocation); login.setDate(LocalDate.now()); login.setCheckInTime(LocalTime.now());
         	    	
-        	    	String formattedDate = login.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG));
         	    	String formattedTime = login.getCheckInTime().format(DateTimeFormatter.ofPattern("HH:mm"));
         	    	
-        	    	if(login.addLocationToDB(login.getNRIC(), login.getLocation(), formattedDate, formattedTime) == true) {
-        				System.out.println("Successfully Checked in");
+        	    	if(login.checkIn(login.getNRIC(), login.getLocation(), login.getDate().toString(), formattedTime)==true) {
+        				
+        	    		System.out.println("Successfully Checked in");
         		    	System.out.println("Name:" + "bob" + "\nNRIC: "+ login.getNRIC() + "\nLocation: " + login.getLocation() +
-        		    			"\nDate: " + formattedDate + "\nCheck in Time : " + formattedTime);
+        		    			"\nDate: " + login.getDate() + "\nCheck in Time : " + formattedTime);
         		    	
-        		    	// Back to Main Menu
-            	    	System.out.println("[B] to back to Main Menu");
+            	    	// Check Out 
+            	    	System.out.println("[O] to Check Out");
             	    	userInput = input.nextLine();
+            	    	
+            	    	if(userInput.equalsIgnoreCase("O")) {
+            	    		login.setCheckOutTime(LocalTime.now());
+            	    		String formattedCheckOutTime = login.getCheckOutTime().format(DateTimeFormatter.ofPattern("HH:mm"));
+            	    		
+            	    		if(login.checkOut(login.getNRIC(), login.getLocation(), login.getDate().toString(), formattedTime, formattedCheckOutTime)==true) {
+            	    			System.out.println("Successfully Checked Out");
+            	    			System.out.println("Location: " + login.getLocation() + "\nDate: " + login.getDate() + "\nCheck in Time : " + formattedTime + "\nCheck Out Time : " + formattedCheckOutTime);
+            	    			// Back to Main Menu
+                    	    	System.out.println("[B] to back to Main Menu");
+                    	    	userInput = input.nextLine();
+            	    		}            	    		
+            	    	}
+            	    	else {
+            	    		System.out.println("Invalid option. Please try again.");
+            	    	}
         	    	}
         	    	else {
         	    		System.out.println("Please try again");
@@ -87,17 +101,15 @@ public class safeentryclient {
         	    	
         	    	System.out.println("Enter location: ");
         	    	String inputLocation = input.nextLine();
-        	    	login.setLocation(inputLocation);
-        	    	login.setDate(LocalDate.now());
-        	    	login.setCheckInTime(LocalTime.now());
+        	    	login.setLocation(inputLocation); login.setDate(LocalDate.now()); login.setCheckInTime(LocalTime.now());
         	    	
-        	    	String formattedDate = login.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG));
         	    	String formattedTime = login.getCheckInTime().format(DateTimeFormatter.ofPattern("HH:mm"));
 
         	    	System.out.println("Enter Number of Group: ");
         	    	String inputNoOfPeople = input.nextLine();
         	    	int noOfPeople = Integer.parseInt(inputNoOfPeople);
         	    	System.out.println("Enter NRIC(s): ");
+        	    	
         	    	for(int i=0; i<noOfPeople; i++) {
         	    		String groupNric = input.nextLine();
         	    		login.setNRIC(groupNric);
@@ -105,15 +117,36 @@ public class safeentryclient {
         	    	}
         	    	
         	    	for (int n=0; n < nrics.size(); n++) {
-         	    		if(login.addLocationToDB(nrics.get(n), login.getLocation(), formattedDate, formattedTime) == true) {
+         	    		if(login.checkIn(nrics.get(n), login.getLocation(), login.getDate().toString(), formattedTime)==true) {
          	    			System.out.println("Successfully Checked in");
                 		    System.out.println("Name:" + "bob" + "\nNRIC: "+ nrics.get(n));                		    	              		    	
                 	    }
+         	    		else {
+         	    			System.out.println("Please try again");
+         	    		}
         	    	}
-        	    	System.out.println("Location: " + login.getLocation() + "\nDate: " + formattedDate + "\nCheck in Time : " + formattedTime);
-        	    	// Back to Main Menu
-        	    	System.out.println("\n[B] to back to Main Menu");
+        	    	System.out.println("Location: " + login.getLocation() + "\nDate: " + login.getDate() + "\nCheck in Time : " + formattedTime);
+        	    	
+        	    	// Check Out 
+        	    	System.out.println("[O] to Check Out");
         	    	userInput = input.nextLine();
+        	    	
+        	    	if(userInput.equalsIgnoreCase("O")) {
+        	    		login.setCheckOutTime(LocalTime.now());
+        	    		String formattedCheckOutTime = login.getCheckOutTime().format(DateTimeFormatter.ofPattern("HH:mm"));
+        	    		for (int count=0; count < nrics.size(); count++) {
+	        	    		if(login.checkOut(nrics.get(count), login.getLocation(), login.getDate().toString(), formattedTime, formattedCheckOutTime)==true){
+		        	    			System.out.println("Successfully Checked Out");
+		        	    		}
+	        	    	}
+        	    		System.out.println("Location: " + login.getLocation() + "\nDate: " + login.getDate() + "\nCheck in Time : " + formattedTime + "\nCheck Out Time : " + formattedCheckOutTime);
+        	    		// Back to Main Menu
+            	    	System.out.println("[B] to back to Main Menu");
+            	    	userInput = input.nextLine();
+        	    	}
+        	    	else {
+        	    		System.out.println("Invalid option. Please try again.");
+        	    	}
         	    }
         	    else {
         	    	System.out.println("Invalid Input");

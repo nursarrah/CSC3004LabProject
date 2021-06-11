@@ -46,9 +46,12 @@ public interface login extends java.rmi.Remote{
     public void enterLocation()
     		throws java.rmi.RemoteException;
     
-    public boolean addLocationToDB(String nric, String location, String date, String checkedInTime)
+    public boolean checkIn(String nric, String location, String date, String checkedInTime)
     		throws java.rmi.RemoteException;
     
     public ArrayList<String> viewHistory(String nric)
+    		throws java.rmi.RemoteException;
+    
+    public boolean checkOut(String nric, String location, String date, String checkedInTime, String checkedOutTime)
     		throws java.rmi.RemoteException;
 }
