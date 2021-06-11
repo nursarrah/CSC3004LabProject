@@ -107,28 +107,31 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 			
 			JSONArray client = (JSONArray) data.get("client");
 			
-			JSONObject getUser  = (JSONObject) client.get(0);
-			String userName = (String) getUser.get("name");
-			String userNRIC = (String) getUser.get("nric");
-			
-	        JSONArray visitedLocation = (JSONArray) getUser.get("visitedlocation");
-    		
-			JSONObject newVisitedLocation = new JSONObject();
-    		newVisitedLocation.put("place", location);
-    		newVisitedLocation.put("date", date);
-    		newVisitedLocation.put("checkInTime", checkedInTime);  
-    		visitedLocation.add(newVisitedLocation);
-    		
-    		try {
-				Writer file = new FileWriter("safeentrydb.json");
-				data.writeJSONString(file);
-				file.flush();
-				file.close();
-				success = true;
-			} catch (IOException e) {
-				System.out.println("An error occurred.Please try again.");
-				success = false;
-			}
+			// loop through array of client
+			 for(int i = 0; i < client.size(); i++) {
+				 JSONObject getUser  = (JSONObject) client.get(i);
+				 String userNRIC = (String) getUser.get("nric");
+				 // if nric in database matches user account, add check in details to db
+				 if(userNRIC.equals(nric)) {
+					 JSONArray visitedLocation = (JSONArray) getUser.get("visitedlocation");
+					 JSONObject newVisitedLocation = new JSONObject();
+					 newVisitedLocation.put("place", location);
+					 newVisitedLocation.put("date", date);
+					 newVisitedLocation.put("checkInTime", checkedInTime);  
+					 visitedLocation.add(newVisitedLocation);
+			    		
+					 try {
+						 Writer file = new FileWriter("safeentrydb.json");
+						 data.writeJSONString(file);
+						 file.flush();
+						 file.close();
+						 success = true;
+					 } catch (IOException e) {
+						 System.out.println("An error occurred.Please try again.");
+						 success = false;
+					}
+				 }
+			 }     
 			
 		} catch (FileNotFoundException e) {
 			System.out.println("An error occurred.Please try again.");
@@ -148,21 +151,25 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 			
 			JSONArray client = (JSONArray) data.get("client");
 			
-			JSONObject getUser  = (JSONObject) client.get(0);
-	        
-	        JSONArray visitedLocation = (JSONArray) getUser.get("visitedlocation");
-	       
-	        for(int i = 0; i < visitedLocation.size(); i++) {
-		        JSONObject getVisitedLocation = (JSONObject) visitedLocation.get(i);
-				
-				String displayPlace = (String) getVisitedLocation.get("place");
-				String displayDate = (String) getVisitedLocation.get("date");
-				String displayCheckInTime = (String) getVisitedLocation.get("checkInTime");
-				String displayCheckOutTime = (String) getVisitedLocation.get("checkOutTime");
-				String visitedPlace = "\n" + displayDate + " " + displayPlace + " " + displayCheckInTime + "-" + displayCheckOutTime;
-				historyList.add(visitedPlace);
-	        }
-		
+			// loop through array of client
+			for(int c = 0; c < client.size(); c++) {
+				JSONObject getUser  = (JSONObject) client.get(c);
+				String userNRIC = (String) getUser.get("nric");
+				// if nric in database matches user account, add check in details to db
+				if(userNRIC.equals(nric)) {
+					JSONArray visitedLocation = (JSONArray) getUser.get("visitedlocation");
+			       
+			        for(int i = 0; i < visitedLocation.size(); i++) {
+				        JSONObject getVisitedLocation = (JSONObject) visitedLocation.get(i);				
+						String displayPlace = (String) getVisitedLocation.get("place");
+						String displayDate = (String) getVisitedLocation.get("date");
+						String displayCheckInTime = (String) getVisitedLocation.get("checkInTime");
+						String displayCheckOutTime = (String) getVisitedLocation.get("checkOutTime");
+						String visitedPlace = "\n" + displayDate + " " + displayPlace + " " + displayCheckInTime + "-" + displayCheckOutTime;
+						historyList.add(visitedPlace);
+			        }
+		        }
+			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
