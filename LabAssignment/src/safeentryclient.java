@@ -31,6 +31,7 @@ public class safeentryclient {
 	    final String INPUT_PROMPT = "Please key in a number:"
                 + "\n1 To Check In"
                 + "\n2 To View History"
+                + "\n3 To View Notification"
                 + "\nb Back To Main Menu"
                 + "\nq To Quit"
                 + "\n";
@@ -125,6 +126,12 @@ public class safeentryclient {
             }
             else if(userInput.equals("2")) {
             	System.out.println(login.viewHistory(login.getNRIC()));
+            	// Back to Main Menu
+    	    	System.out.println("[B] to back to Main Menu");
+    	    	userInput = input.nextLine();
+            }
+            else if(userInput.equals("3")) {
+            	System.out.println("hello");
             	// Back to Main Menu
     	    	System.out.println("[B] to back to Main Menu");
     	    	userInput = input.nextLine();

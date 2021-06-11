@@ -51,4 +51,6 @@ public interface login extends java.rmi.Remote{
     
     public ArrayList<String> viewHistory(String nric)
     		throws java.rmi.RemoteException;
+    
+    public String notificationFeature(String nric) throws java.rmi.RemoteException;
 }
