@@ -1,15 +1,34 @@
 
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 
 public class safeentryclient {
     public static void main(String[] args) {
-
+    	
+		String name, nric, location, date, inTime;
+		ArrayList<String> nrics = new ArrayList<String>();
+		
 //      //use localhost if running the server locally or use IP address of the server
        String reg_host = "localhost";
        int reg_port = 1099;
@@ -22,29 +41,63 @@ public class safeentryclient {
       }
 
 	try {
-
-	    // Create the reference to the remote object through the remiregistry
-//		calculator c = (calculator)
-//				Naming.lookup("rmi://localhost/CalculatorService");
+		
 		login login = (login) Naming.lookup("rmi://localhost/LoginService");
 
-      //Naming.lookup("rmi://localhost/CalculatorService");
+		Scanner input = new Scanner(System.in);
+		
+		System.out.println("Enter NRIC to login: ");
+	    String userNRIC = input.nextLine();
+	    login.setNRIC(userNRIC);
+	    System.out.println("Welcome " + login.getNRIC() + ",");
+        
+	    System.out.println("Individual Check In? [Y/N]");
+	    String choice = input.nextLine();
+	    if(choice.equals("Y")) {
+	    	
+	    	System.out.println("Enter location: ");
+	    	String inputLocation = input.nextLine();
+	    	login.setLocation(inputLocation);
+	    	login.setDate(LocalDate.now());
+	    	login.setCheckInTime(LocalTime.now());
+	    	
+	    	String formattedDate = login.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG));
+	    	String formattedTime = login.getCheckInTime().format(DateTimeFormatter.ofPattern("HH:mm"));
+	    	
+	    	nric = login.getNRIC();
+	    	location = login.getLocation();
+	    	date = formattedDate;
+	    	inTime = formattedTime;
+	    		
+	    	login.addLocationToDB(nric, location, date, inTime);
+	    	login.viewHistory(nric);
+	    		
+	    }
+	    else if(choice.equals("N"))
+	    {
+	    	System.out.println("Enter location: ");
+	    	String inputLocation = input.nextLine();
+	    	login.setLocation(inputLocation);
+	    	login.setCheckInTime(LocalTime.now());
 
-
-	    // Now use the reference c to call remote methods
-      // e.g., call c.add(3, 21) where c is the instance of the remote object
-		//System.out.println("3+21=" + c.add(3,21));
-		Scanner myObj = new Scanner(System.in);  // Create a Scanner object
-	    System.out.println("Enter NRIC to login");
-	    String userNRIC = myObj.nextLine();
-	    String userName = login.userLogin(userNRIC);
-	    System.out.println("Welcome " + userName);
-	    
+	    	System.out.println("Enter Number of Group: ");
+	    	String inputNoOfPeople = input.nextLine();
+	    	int noOfPeople = Integer.parseInt(inputNoOfPeople);
+	    	System.out.println("Enter NRIC(s): ");
+	    	for(int i=0;i<noOfPeople;i++) {
+	    		String groupNric = input.nextLine();
+	    		login.setNRIC(groupNric);
+	    		nrics.add(groupNric);
+	    		
+	    		
+	    	}
+	    }
+	    else {
+	    	System.out.println("Invalid Input");
+	    }
 	    
   }
   // Catch the exceptions that may occur - rubbish URL, Remote exception
-	// Not bound exception or the arithmetic exception that may occur in
-	// one of the methods creates an arithmetic error (e.g. divide by zero)
 	catch (MalformedURLException murle) {
             System.out.println();
             System.out.println("MalformedURLException");
