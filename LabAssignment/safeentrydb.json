@@ -1,26 +1,28 @@
-[
-    {
-        "client": {
+{
+    "client": [
+        {
+            "visitedlocation": [
+                {
+                    "date": "February 09, 2004",
+                    "checkOutTime": "",
+                    "checkInTime": "test",
+                    "place": "suntec"
+                }
+            ],
             "name": "Jennie",
-            "nric": "S999999D",
-            "visitedlocation":{
-                "place" : "suntec",
-                "date"  :"2021-06-02",
-                "checkInTime" :"test"
-                "checkOutTime" :"test"
-            }
-        }
-    },
-    {
-        "client": {
+            "nric": "S999991D"
+        },
+        {
+            "visitedlocation": [
+                {
+                    "date": "test",
+                    "checkOutTime": "test",
+                    "checkInTime": "test",
+                    "place": "suntec"
+                }
+            ],
             "name": "Lalisa",
-            "nric": "S999999D",
-            "visitedlocation":{
-                "place" : "suntec",
-                "date"  :"2021-06-02",
-                "checkInTime" :"test"
-                "checkOutTime" :"test"
-            }
+            "nric": "S999999D"
         }
-    }
-]
+    ]
+}

@@ -79,7 +79,7 @@ public class remoteaccessimpl extends java.rmi.server.UnicastRemoteObject implem
 		detailsList.add(detailsObject);
       
 		try {
-			Writer file = new FileWriter("affectedclientsdb.json");
+			Writer file = new FileWriter("remoteaccessdb.json");
 			file.write(detailsList.toJSONString());
 			file.flush();
 			file.close();
