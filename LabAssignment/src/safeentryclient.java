@@ -52,12 +52,13 @@ public class safeentryclient {
 		login login = (login) Naming.lookup("rmi://localhost/LoginService");
 
 		Scanner input = new Scanner(System.in);
-		
-		System.out.println("Enter NRIC to login: ");
-	    String userNRIC = input.nextLine();
-	    login.setNRIC(userNRIC);
-	    System.out.println("Welcome " + login.getNRIC() + ",");
+		Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+	    System.out.println("Enter NRIC to login");
+	    String userNRIC = myObj.nextLine();
+	    String userName = login.userLogin(userNRIC);
+	    System.out.println("Welcome " + userName + ",");
 	    System.out.print(INPUT_PROMPT);
+	    
 	    
 	    String userInput = "";
 	    userInput = input.nextLine();
@@ -131,7 +132,7 @@ public class safeentryclient {
     	    	userInput = input.nextLine();
             }
             else if(userInput.equals("3")) {
-            	System.out.println("hello");
+            	System.out.println(login.notificationFeature(userNRIC));
             	// Back to Main Menu
     	    	System.out.println("[B] to back to Main Menu");
     	    	userInput = input.nextLine();

@@ -49,8 +49,8 @@ public class notification {
 
                 
         //calculate declared date and find 14 days ago date to have range
-//        LocalDate endDateRange = LocalDate.parse(declaredDate);
-//        LocalDate startDateRange = endDateRange.minusDays(14);
+        LocalDate endDateRange = LocalDate.parse(declaredDate);
+        LocalDate startDateRange = endDateRange.minusDays(14);
         
         //check for visited location
 //        for (int i=0; i < clientList.size(); i++) {
