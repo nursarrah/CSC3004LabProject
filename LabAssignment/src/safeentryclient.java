@@ -51,6 +51,7 @@ public class safeentryclient {
 	    login.setNRIC(userNRIC);
 	    System.out.println("Welcome " + login.getNRIC() + ",");
         
+	    
 	    System.out.println("Individual Check In? [Y/N]");
 	    String choice = input.nextLine();
 	    if(choice.equals("Y")) {
@@ -70,7 +71,7 @@ public class safeentryclient {
 	    	inTime = formattedTime;
 	    		
 	    	login.addLocationToDB(nric, location, date, inTime);
-	    	login.viewHistory(nric);
+	    	//login.viewHistory(nric);
 	    		
 	    }
 	    else if(choice.equals("N"))
@@ -92,9 +93,13 @@ public class safeentryclient {
 	    		
 	    	}
 	    }
+	    else if(choice.isEmpty()) {
+//	    	System.out.println("didnt choose any choice");
+	    }
 	    else {
 	    	System.out.println("Invalid Input");
 	    }
+	    
 	    
   }
   // Catch the exceptions that may occur - rubbish URL, Remote exception

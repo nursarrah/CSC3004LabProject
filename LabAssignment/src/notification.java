@@ -45,21 +45,23 @@ public class notification {
         JSONArray client = (JSONArray) data.get("client");
 		JSONObject getUser  = (JSONObject) client.get(0);
         JSONArray visitedLocation = (JSONArray) getUser.get("visitedlocation");
+
+
                 
         //calculate declared date and find 14 days ago date to have range
-        LocalDate endDateRange = LocalDate.parse(declaredDate);
-        LocalDate startDateRange = endDateRange.minusDays(14);
+//        LocalDate endDateRange = LocalDate.parse(declaredDate);
+//        LocalDate startDateRange = endDateRange.minusDays(14);
         
         //check for visited location
-        for (int i=0; i < clientList.size(); i++) {
-        	JSONObject clientObject = (JSONObject) clientList.get(i);
-        	JSONObject client = (JSONObject) clientObject.get("client");
-        	JSONObject location = (JSONObject) client.get("visitedlocation");
-        	String place = (String) location.get("place");
-        	if (place.equals(declaredLocation)) {
-        		clientArrayNumber.add(i);
-        	}
-        }
+//        for (int i=0; i < clientList.size(); i++) {
+//        	JSONObject clientObject = (JSONObject) clientList.get(i);
+//        	JSONObject client = (JSONObject) clientObject.get("client");
+//        	JSONObject location = (JSONObject) client.get("visitedlocation");
+//        	String place = (String) location.get("place");
+//        	if (place.equals(declaredLocation)) {
+//        		clientArrayNumber.add(i);
+//        	}
+//        }
                
 //        //check date range to know affected client
 //        for ( int j=0; j< clientArrayNumber.size(); j++) {
