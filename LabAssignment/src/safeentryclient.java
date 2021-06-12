@@ -16,6 +16,7 @@ public class safeentryclient {
 	    final String INPUT_PROMPT = "Please key in value:"
                 + "\n1 To Check In"
                 + "\n2 To View History"
+                + "\n3 To View Notification"
                 + "\nb Back To Main Menu"
                 + "\nq To Quit"
                 + "\n";
@@ -38,12 +39,13 @@ public class safeentryclient {
 		login login = (login) Naming.lookup("rmi://localhost/LoginService");
 
 		Scanner input = new Scanner(System.in);
-		
-		System.out.println("Enter NRIC to login: ");
-	    String userNRIC = input.nextLine();
-	    login.setNRIC(userNRIC);
-	    System.out.println("Welcome " + login.getNRIC() + ",");
+		Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+	    System.out.println("Enter NRIC to login");
+	    String userNRIC = myObj.nextLine();
+	    String userName = login.userLogin(userNRIC);
+	    System.out.println("Welcome " + userName + ",");
 	    System.out.print(INPUT_PROMPT);
+	    
 	    
 	    String userInput = "";
 	    userInput = input.nextLine();
@@ -165,6 +167,12 @@ public class safeentryclient {
             else if(userInput.equals("2")) {
             	System.out.println(login.viewHistory(login.getNRIC()));
             	//'B' to Back to Main Menu
+    	    	System.out.println("[B] to back to Main Menu");
+    	    	userInput = input.nextLine();
+            }
+            else if(userInput.equals("3")) {
+            	System.out.println(login.notificationFeature(userNRIC));
+            	// Back to Main Menu
     	    	System.out.println("[B] to back to Main Menu");
     	    	userInput = input.nextLine();
             }

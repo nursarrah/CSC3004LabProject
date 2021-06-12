@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public interface login extends java.rmi.Remote{
 	
-	public String userLogin(String userName)
+	public String userLogin(String nric)
 			throws java.rmi.RemoteException;
 	
 	public void setName(String name)
@@ -51,4 +51,6 @@ public interface login extends java.rmi.Remote{
     
     public boolean checkOut(String nric, String location, String date, String checkedInTime, String checkedOutTime)
     		throws java.rmi.RemoteException;
+    
+    public String notificationFeature(String nric) throws java.rmi.RemoteException;
 }

@@ -1,9 +1,7 @@
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.function.ObjDoubleConsumer;
-
+ 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -32,19 +30,19 @@ public class readDBSample {
 	            
 	            
 	            //same thing but without gg through parseClientObject
-	            for (int i=0; i < clientList.size(); i++) {
-	            	JSONObject clientObject = (JSONObject) clientList.get(i);
-	            	JSONObject client = (JSONObject) clientObject.get("client");
-	            	JSONObject location = (JSONObject) client.get("visitedlocation");
-	            	String place = (String) location.get("place");  
-	    	        System.out.println(i);
-	    	        System.out.println(place);
-	            }
+//	            for (int i=0; i < clientList.size(); i++) {
+//	            	JSONObject clientObject = (JSONObject) clientList.get(i);
+//	            	JSONObject client = (JSONObject) clientObject.get("client");
+//	            	JSONObject location = (JSONObject) client.get("visitedlocation");
+//	            	String place = (String) location.get("place");  
+//	    	        System.out.println(i);
+//	    	        System.out.println(place);
+//	            }
 
 	            
 	            
 	            //Iterate over employee array
-	           // clientList.forEach( emp -> parseClientObject( (JSONObject) emp ) );
+	           clientList.forEach( emp -> parseClientObject( (JSONObject) emp ) );
 	 
 	        } catch (FileNotFoundException e) {
 	            e.printStackTrace();
@@ -66,7 +64,8 @@ public class readDBSample {
 	   	        
 	        //get location object within list
 	        JSONObject location = (JSONObject) clientObject.get("visitedlocation");
-	       
+	        
+
 	         
 	        //Get client name
 	        String name = (String) clientObject.get("name");    

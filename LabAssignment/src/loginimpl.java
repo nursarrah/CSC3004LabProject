@@ -27,33 +27,36 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 		super();
 	}
 	@SuppressWarnings("unchecked")
-	public String userLogin(String a) throws java.rmi.RemoteException {
-	      String nric = a;
-	      String name = " ";
-	      switch (nric) {
-	      case "S999991D":
-	    	  return "Jennie";
-	      case "S999999D":
-	    	  return "Lalisa";
-	      default:
-	    	  return "No NRIC in database.";  
-     }
-	
-//	      FileReader reader = new FileReader("safeentrydb.json");
-//	        JSONParser jsonParser = new JSONParser();
-//	        Object safeEntryObj = jsonParser.parse(reader);
-//	        JSONArray clientList = (JSONArray) safeEntryObj;
-//	        for (int i=0; i < clientList.size(); i++) {
-//	        	JSONObject clientObject = (JSONObject) clientList.get(i);
-//	        	JSONObject client = (JSONObject) clientObject.get("client");
-//	        	String clientnric = (String) clientObject.get("nric");  
-//	        	if (clientnric.equals(a)) {
-//	        		String clientname = (String) clientObject.get("name"); 
-//	        		name = clientname;
-//	        	}
-//	        }
-//	        return name;
-	 }
+	public String userLogin(String nric) throws java.rmi.RemoteException {
+		String userName = null;
+		try {
+			reader = new FileReader("safeentrydb.json");
+			JSONObject data = (JSONObject) parser.parse(reader);
+			
+			JSONArray client = (JSONArray) data.get("client");
+			
+			// loop through array of client
+			for(int c = 0; c < client.size(); c++) {
+				JSONObject getUser  = (JSONObject) client.get(c);
+				String userNRIC = (String) getUser.get("nric");
+				// if nric in database matches user account, add check in details to db
+				if(userNRIC.equals(nric)) {
+					userName = (String) getUser.get("name");
+		        }else {
+		        	userName = "User not in database.";
+		        }
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return userName;
+
+	}
+		
 	public void setName(String name) throws java.rmi.RemoteException{
 		this.name=name;
 	}
@@ -233,15 +236,83 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 						String visitedPlace = "\n" + displayDate + " " + displayPlace + " " + displayCheckInTime + "-" + displayCheckOutTime;
 						historyList.add(visitedPlace);
 			        }
-		        }
+				}
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ParseException e) {
+				e.printStackTrace();
 			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ParseException e) {
-			e.printStackTrace();
+			return historyList;
+			
 		}
-		return historyList;
+		
+		public String notificationFeature(String nric) throws java.rmi.RemoteException{
+			//read remoteaccessdb
+//	        FileReader reader;
+			String alertMessage = null;
+			try {
+				FileReader reader = new FileReader("remoteaccessdb.json");
+				JSONParser jsonParser = new JSONParser();
+		        Object remoteAccessObj;
+				try {
+					remoteAccessObj = jsonParser.parse(reader);
+					 JSONArray remoteAccessDetails = (JSONArray) remoteAccessObj;
+				     JSONObject detailsObject = (JSONObject)remoteAccessDetails.get(0);
+				    JSONObject details = (JSONObject) detailsObject.get("details");
+				    String declaredLocation = (String) details.get("place");
+				    String declaredDate = (String) details.get("date");
+				    String declaredCheckInTime = (String) details.get("checkInTime");
+				    String declaredCheckOutTime = (String) details.get("checkOutTime");
+				    
+				  //calculate declared date and find 14 days ago date to have range
+			        LocalDate endDateRange = LocalDate.parse(declaredDate);
+			        LocalDate startDateRange = endDateRange.minusDays(14);
+				    
+				    FileReader safeEntryReader = new FileReader("safeentrydb.json");
+			        JSONParser safeEntryJsonParser = new JSONParser();
+			        JSONObject data = (JSONObject)safeEntryJsonParser.parse(safeEntryReader);
+			        JSONArray client = (JSONArray) data.get("client");
+			        
+			     // loop through array of client
+					for(int c = 0; c < client.size(); c++) {
+						JSONObject getUser  = (JSONObject) client.get(c);
+						String userNRIC = (String) getUser.get("nric");
+						// if nric in database matches user account, add check in details to db
+						if(userNRIC.equals(nric)) {
+							visitedLocation = (JSONArray) getUser.get("visitedlocation");
+							
+							for(int i = 0; i < visitedLocation.size(); i++) {
+						        JSONObject getVisitedLocation = (JSONObject) visitedLocation.get(i);				
+								String place = (String) getVisitedLocation.get("place");
+								if (place.equals(declaredLocation)) {
+									String date = (String) getVisitedLocation.get("date");
+									LocalDate clientDate = LocalDate.parse(date);
+									if(clientDate.isAfter(startDateRange) || clientDate.isEqual(endDateRange)){
+						        			alertMessage = "You were at a place visited by a covid 19 case." 
+						        							+ "\nCovid 19 patient's case information:"
+						        							+ "\nPlace: " + declaredLocation.toString()
+						        							+ "\nDate: "  + declaredDate.toString()
+						        							+ "\nCheck In Time: " + declaredCheckInTime.toString()
+						        							+ "\nCheck Out Time: " + declaredCheckOutTime.toString();
+						        		}else {
+											alertMessage = "No exposure alerts.";
+										}
+								}else {
+									alertMessage = "No exposure alerts.";
+								}
+						}}}}
+				    
+						 catch (IOException e) {
+					e.printStackTrace();
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+	        
+			return alertMessage;
 	}
-}
+		}

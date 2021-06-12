@@ -3,9 +3,9 @@
 		{
 			"visitedlocation": [
 				{
-					"date": "2021-06-09",
-					"checkOutTime": "02:40",
-					"checkInTime": "03:00",
+					"date": "2021-03-03",
+					"checkOutTime": "",
+					"checkInTime": "test",
 					"place": "suntec"
 				}
 			],
@@ -15,9 +15,9 @@
 		{
 			"visitedlocation": [
 				{
-					"date": "2021-06-09",
-					"checkOutTime": "20:50",
-					"checkInTime": "21:00",
+					"date": "2020-04-03",
+					"checkOutTime": "test",
+					"checkInTime": "test",
 					"place": "suntec"
 				}
 			],
