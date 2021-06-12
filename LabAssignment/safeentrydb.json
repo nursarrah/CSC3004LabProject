@@ -4,9 +4,15 @@
 			"visitedlocation": [
 				{
 					"date": "2021-03-03",
-					"checkOutTime": "",
-					"checkInTime": "test",
+					"checkOutTime": "14:05",
+					"checkInTime": "15:30",
 					"place": "suntec"
+				},
+				{
+					"date": "2021-06-12",
+					"checkOutTime": "22:45",
+					"checkInTime": "22:44",
+					"place": "ION Orchard"
 				}
 			],
 			"name": "Jennie",
@@ -16,9 +22,21 @@
 			"visitedlocation": [
 				{
 					"date": "2020-04-03",
-					"checkOutTime": "test",
-					"checkInTime": "test",
+					"checkOutTime": "14:05",
+					"checkInTime": "15:30",
 					"place": "suntec"
+				},
+				{
+					"date": "2021-06-12",
+					"checkOutTime": "22:43",
+					"checkInTime": "22:42",
+					"place": "JEM"
+				},
+				{
+					"date": "2021-06-12",
+					"checkOutTime": "22:45",
+					"checkInTime": "22:44",
+					"place": "ION Orchard"
 				}
 			],
 			"name": "Lalisa",
