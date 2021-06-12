@@ -38,9 +38,6 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 				if(userNRIC.equals(nric)) {
 					name = (String) getUser.get("name");
 		        }
-				else {
-					name = null;
-				}
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
