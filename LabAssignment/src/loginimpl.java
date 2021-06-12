@@ -14,7 +14,7 @@ import org.json.simple.parser.ParseException;
 
 public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements login {
 	
-	private String name, location, checkedIn, checkedOut;
+	private String name;
 	private boolean success = false;
 	LocalDate date;
 	JSONParser parser = new JSONParser();
@@ -47,38 +47,7 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 			e.printStackTrace();
 		}
 		return name;
-	}
-
-    public void setLocation(String location) throws java.rmi.RemoteException{
-    	this.location=location;
-    }
-	    
-    public String getLocation() throws java.rmi.RemoteException{
-    	return location;
-    }
-	    
-    public void setCheckInTime(String checkedIn) throws java.rmi.RemoteException{
-    	this.checkedIn=checkedIn;
-    }
-	    
-    public String getCheckInTime() throws java.rmi.RemoteException{
-    	return checkedIn;
-    }
-	    
-    public void setCheckOutTime(String checkedOut) throws java.rmi.RemoteException{
-    	this.checkedOut=checkedOut;
-    }
-	    
-    public String getCheckOutTime() throws java.rmi.RemoteException{
-    	return checkedOut;
-    }
-	public void setDate(LocalDate date) throws java.rmi.RemoteException{
-		this.date=date;
-	}
-	public LocalDate getDate() throws java.rmi.RemoteException{
-		return date;
-	}
-	
+	}	
 	/**
 	 * Check In user and add Check In details (place, date, check in time) to database (safeentrydb.json)
 	 * 

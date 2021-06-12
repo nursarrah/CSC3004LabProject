@@ -10,7 +10,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class safeentryclient {
-    public static void main(String[] args) {
+	
+	static LocalDate setDate;
+	static String setLocation, setCheckInTime, setCheckOutTime;
+    
+	public static void main(String[] args) {
     	
 		ArrayList<String> nrics = new ArrayList<String>();
 	    final String INPUT_PROMPT = "Please key in value:"
@@ -19,8 +23,6 @@ public class safeentryclient {
                 + "\n3 To View Notification"
                 + "\nq To Quit"
                 + "\n";
-	    String location, checkin, checkout;
-	    LocalDate  date;
 	    
 //      //use localhost if running the server locally or use IP address of the server
        String reg_host = "localhost";
@@ -65,29 +67,22 @@ public class safeentryclient {
 	        	    String choice = input.nextLine();
 	        	    // 'Y' for individual check in
 	        	    if(choice.equalsIgnoreCase("Y")) {
-	        	    	
-	        	    	System.out.println("Enter location: ");
-	        	    	String inputLocation = input.nextLine();
-	        	    	String formattedCheckInTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
+	        	    		        	    	
 	        	    	// set location, date & check in time
-	        	    	login.setLocation(inputLocation); login.setDate(LocalDate.now()); login.setCheckInTime(formattedCheckInTime);
-	        	    	// get location, date & check in time
-	        	    	location = login.getLocation(); date = login.getDate(); checkin = login.getCheckInTime();
+	        	    	setCheckInDetails();
 	        	    	
-	        	    	if(login.checkIn(userNRIC, location, date.toString(), checkin)==true) {
+	        	    	if(login.checkIn(userNRIC, setLocation, setDate.toString(), setCheckInTime)==true) {
 	        				// display check in details of user
 	        	    		System.out.println("Successfully Checked in");
-	        		    	System.out.println("Name:" + userName + "\nNRIC: "+ userNRIC + "\nLocation: " + location + "\nDate: " + date + "\nCheck in Time : " + checkin);
+	        		    	System.out.println("Name:" + userName + "\nNRIC: "+ userNRIC + "\nLocation: " + setLocation + "\nDate: " + setDate + "\nCheck in Time : " + setCheckInTime);
 	            	    	System.out.println("[O] to Check Out");
 	            	    	userInput = input.nextLine();
 	            	    	// 'O' to check out 
 	            	    	if(userInput.equalsIgnoreCase("O")) {
-	            	    		String formattedCheckOutTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
-	            	    		login.setCheckOutTime(formattedCheckOutTime);
-	            	    		checkout = login.getCheckOutTime();
-	            	    		if(login.checkOut(userNRIC, location, date.toString(), checkin, checkout)==true) {
+	            	    		setCheckOutDetails();
+	            	    		if(login.checkOut(userNRIC, setLocation, setDate.toString(), setCheckInTime, setCheckOutTime)==true) {
 	            	    			System.out.println("Successfully Checked Out");
-	            	    			System.out.println("Location: " + location + "\nDate: " + date + "\nCheck Out Time : " + checkout);
+	            	    			System.out.println("Location: " + setLocation + "\nDate: " + setDate + "\nCheck Out Time : " + setCheckOutTime);
 	            	    			// Back to Main Menu
 	                    	    	System.out.println("[B] to back to Main Menu");
 	                    	    	userInput = input.nextLine();
@@ -105,15 +100,9 @@ public class safeentryclient {
 	        	    	}
 	
 	        	    } else if(choice.equalsIgnoreCase("N")) {
-	        	    	
-	        	    	System.out.println("Enter location: ");
-	        	    	String inputLocation = input.nextLine();
-	        	    	String formattedCheckInTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
+	        	    		        	    	
 	        	    	// set location, date & check in time
-	        	    	login.setLocation(inputLocation); login.setDate(LocalDate.now()); login.setCheckInTime(formattedCheckInTime);
-	        	    	// get location, date & check in time
-	        	    	location = login.getLocation(); date = login.getDate(); checkin = login.getCheckInTime();
-	        	    	
+	        	    	setCheckInDetails();
 	        	    	// Input Number of Group
 	        	    	System.out.println("Enter Number of Group: ");
 	        	    	String inputNoOfPeople = input.nextLine();
@@ -124,27 +113,25 @@ public class safeentryclient {
 	        	    		nrics.add(groupNric);
 	        	    	}
 	        	    	for (int n=0; n < nrics.size(); n++) {
-	         	    		if(login.checkIn(nrics.get(n), location, date.toString(), checkin)==true) {
+	         	    		if(login.checkIn(nrics.get(n), setLocation, setDate.toString(), setCheckInTime)==true) {
 	                		    System.out.println(nrics.get(n));                		    	              		    	
 	                	    }
 	         	    		else {
 	         	    			System.out.println("Please try again");
 	         	    		}
 	        	    	}
-	        	    	System.out.println("Successfully Checked in \nLocation: " + location + "\nDate: " + date + "\nCheck in Time : " + checkin);
+	        	    	System.out.println("Successfully Checked in \nLocation: " + setLocation + "\nDate: " + setDate + "\nCheck in Time : " + setCheckInTime);
 	        	    	System.out.println("[O] to Check Out");
 	        	    	userInput = input.nextLine();
 	        	    	// 'O' to Check Out 
 	        	    	if(userInput.equalsIgnoreCase("O")) {
-	        	    		String formattedCheckOutTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
-	        	    		login.setCheckOutTime(formattedCheckOutTime);
-	        	    		checkout = login.getCheckOutTime();
+	        	    		setCheckOutDetails();
 	        	    		for (int count=0; count < nrics.size(); count++) {
-		        	    		if(login.checkOut(nrics.get(count), location, date.toString(), checkin, checkout)==true){
+		        	    		if(login.checkOut(nrics.get(count), setLocation, setDate.toString(), setCheckInTime, setCheckOutTime)==true) {
 			        	    			System.out.println(nrics.get(count));
 			        	    	}
 	        	    		}
-	        	    		System.out.println("Successfully Checked Out \nLocation: " + location + "\nDate: " + date +  "\nCheck Out Time : " + checkout);
+	        	    		System.out.println("Successfully Checked Out \nLocation: " + setLocation + "\nDate: " + setDate +  "\nCheck Out Time : " + setCheckOutTime);
 	        	    		//'B' Back to Main Menu
 	            	    	System.out.println("[B] to back to Main Menu");
 	            	    	userInput = input.nextLine();
@@ -203,5 +190,17 @@ public class safeentryclient {
             System.out.println("java.lang.ArithmeticException");
             System.out.println(ae);
         }
+    }
+    public static void setCheckInDetails() {
+    	Scanner input = new Scanner(System.in);
+    	System.out.println("Enter location: ");
+    	String inputLocation = input.nextLine();
+    	setCheckInTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
+    	setLocation = inputLocation;
+    	setDate = LocalDate.now();
+    	
+    }
+    public static void setCheckOutDetails() {
+    	setCheckOutTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
     }
 }
