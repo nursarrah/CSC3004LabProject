@@ -237,7 +237,8 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 						historyList.add(visitedPlace);
 			        }
 				}
-			} catch (FileNotFoundException e) {
+			} }
+			catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -281,7 +282,7 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 						String userNRIC = (String) getUser.get("nric");
 						// if nric in database matches user account, add check in details to db
 						if(userNRIC.equals(nric)) {
-							visitedLocation = (JSONArray) getUser.get("visitedlocation");
+							JSONArray visitedLocation = (JSONArray) getUser.get("visitedlocation");
 							
 							for(int i = 0; i < visitedLocation.size(); i++) {
 						        JSONObject getVisitedLocation = (JSONObject) visitedLocation.get(i);				
