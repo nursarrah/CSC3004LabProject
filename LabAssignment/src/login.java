@@ -31,20 +31,17 @@ public interface login extends java.rmi.Remote{
     public LocalDate getDate()
         throws java.rmi.RemoteException;
 	    
-    public void setCheckOutTime(LocalTime checkedOut)
+    public void setCheckOutTime(String checkedOut)
 			throws java.rmi.RemoteException;
     
-    public LocalTime getCheckOutTime()
+    public String getCheckOutTime()
             throws java.rmi.RemoteException;
 	    
-    public void setCheckInTime(LocalTime checkedIn)
+    public void setCheckInTime(String checkedIn)
 			throws java.rmi.RemoteException;
 	    
-    public LocalTime getCheckInTime()
+    public String getCheckInTime()
         throws java.rmi.RemoteException;	
-    
-    public void enterLocation()
-    		throws java.rmi.RemoteException;
     
     public boolean checkIn(String nric, String location, String date, String checkedInTime)
     		throws java.rmi.RemoteException;

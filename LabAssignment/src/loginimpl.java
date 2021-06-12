@@ -17,14 +17,14 @@ import org.json.simple.parser.ParseException;
 
 public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements login {
 	
-	private String name, nric, location;
-	LocalTime checkedIn, checkedOut;
+	private String name, nric, location, checkedIn, checkedOut;
+	private boolean success = false;
 	LocalDate date;
 	JSONParser parser = new JSONParser();
 	Reader reader;
+	
 	protected loginimpl() throws RemoteException {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	@SuppressWarnings("unchecked")
 	public String userLogin(String a) throws java.rmi.RemoteException {
@@ -78,43 +78,43 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
     	return location;
     }
 	    
-    public void setCheckInTime(LocalTime checkedIn) throws java.rmi.RemoteException{
+    public void setCheckInTime(String checkedIn) throws java.rmi.RemoteException{
     	this.checkedIn=checkedIn;
     }
 	    
-    public LocalTime getCheckInTime() throws java.rmi.RemoteException{
+    public String getCheckInTime() throws java.rmi.RemoteException{
     	return checkedIn;
     }
 	    
-    public void setCheckOutTime(LocalTime checkedOut) throws java.rmi.RemoteException{
+    public void setCheckOutTime(String checkedOut) throws java.rmi.RemoteException{
     	this.checkedOut=checkedOut;
     }
 	    
-    public LocalTime getCheckOutTime() throws java.rmi.RemoteException{
+    public String getCheckOutTime() throws java.rmi.RemoteException{
     	return checkedOut;
     }
-	public void enterLocation() throws java.rmi.RemoteException{
-		Scanner input = new Scanner(System.in);
-		System.out.println("Enter location: ");
-    	String location = input.nextLine();
-	}
 	public void setDate(LocalDate date) throws java.rmi.RemoteException{
 		this.date=date;
 	}
 	public LocalDate getDate() throws java.rmi.RemoteException{
 		return date;
 	}
-	// Add Check In details (place, date, check in time) to database and returns success or failure
+	
+	/**
+	 * Check In user and add Check In details (place, date, check in time) to database (safeentrydb.json)
+	 * 
+	 *  @param	nric			NRIC of logged in user
+	 *  @param	location		current location 
+	 *  @param	date			current date
+	 *  @param	checkedInTime	current time
+	 *  @return	success			the check in state true(success) or false(failure)
+	 */
 	@SuppressWarnings("unchecked")
 	public boolean checkIn(String nric, String location, String date, String checkedInTime) throws java.rmi.RemoteException {
 		
-		boolean success = false;
-
 		try {
 			reader = new FileReader("safeentrydb.json");
-			
 			JSONObject data = (JSONObject) parser.parse(reader);
-			
 			JSONArray client = (JSONArray) data.get("client");
 			
 			// loop through array of client
@@ -129,7 +129,6 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 					 newVisitedLocation.put("date", date);
 					 newVisitedLocation.put("checkInTime", checkedInTime);  
 					 visitedLocation.add(newVisitedLocation);
-			    		
 					 try {
 						 Writer file = new FileWriter("safeentrydb.json");
 						 data.writeJSONString(file);
@@ -142,7 +141,6 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 					}
 				 }
 			 }     
-			
 		} catch (FileNotFoundException e) {
 			System.out.println("An error occurred.Please try again.");
 		} catch (IOException e) {
@@ -152,16 +150,23 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 		}
 		return success;
 	}
-	// Add Check Out details (check out time) to database and returns success or failure
+	/**
+	 * Check Out user and add Check Out details (check out time) to database (safeentrydb.json)
+	 * 
+	 *  @param	nric			NRIC of logged in user
+	 *  @param	location		checked in location 
+	 *  @param	date			checked in date
+	 *  @param	checkedInTime	checked in time
+	 *  @param	checkedOutTime	current time
+	 *  @return	success			the check out state true(success) or false(failure)
+	 */
 	@SuppressWarnings("unchecked")
 	public boolean checkOut(String nric, String location, String date, String checkedInTime, String checkedOutTime) throws java.rmi.RemoteException {
-		boolean success = false;
-
+		
 		try {
 			reader = new FileReader("safeentrydb.json");
 			JSONObject data = (JSONObject) parser.parse(reader);
 			JSONArray client = (JSONArray) data.get("client");
-			
 			// loop through array of client
 			 for(int i = 0; i < client.size(); i++) {
 				 JSONObject getUser  = (JSONObject) client.get(i);
@@ -200,15 +205,18 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 		}
 		return success;
 	}
-	// Return list of Visited Locations of a user
+	/**
+	 * Check Out user and add Check Out details (check out time) to database (safeentrydb.json)
+	 * 
+	 *  @param	nric			NRIC of logged in user
+	 *  @return	historyList		list of past visited location of logged in user
+	 */
 	public ArrayList<String> viewHistory(String nric) throws java.rmi.RemoteException {
 		ArrayList<String> historyList = new ArrayList<>();
 		try {
 			reader = new FileReader("safeentrydb.json");
 			JSONObject data = (JSONObject) parser.parse(reader);
-			
 			JSONArray client = (JSONArray) data.get("client");
-			
 			// loop through array of client
 			for(int c = 0; c < client.size(); c++) {
 				JSONObject getUser  = (JSONObject) client.get(c);
@@ -216,7 +224,6 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 				// if nric in database matches user account, add check in details to db
 				if(userNRIC.equals(nric)) {
 					JSONArray visitedLocation = (JSONArray) getUser.get("visitedlocation");
-			       
 			        for(int i = 0; i < visitedLocation.size(); i++) {
 				        JSONObject getVisitedLocation = (JSONObject) visitedLocation.get(i);				
 						String displayPlace = (String) getVisitedLocation.get("place");
@@ -236,6 +243,5 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 			e.printStackTrace();
 		}
 		return historyList;
-		
 	}
 }
