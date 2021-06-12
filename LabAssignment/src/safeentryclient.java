@@ -19,7 +19,7 @@ public class safeentryclient {
                 + "\n3 To View Notification"
                 + "\nq To Quit"
                 + "\n";
-	    String nric, location, checkin, checkout;
+	    String location, checkin, checkout;
 	    LocalDate  date;
 	    
 //      //use localhost if running the server locally or use IP address of the server
@@ -40,7 +40,6 @@ public class safeentryclient {
 		Scanner input = new Scanner(System.in);
 	    System.out.println("Enter NRIC to login");
 	    String userNRIC = input.nextLine();
-	    login.setNRIC(userNRIC);
 	    String userName = login.userLogin(userNRIC);
 	    if(userName!=null) {
 		    System.out.println("Welcome " + userName + ",");
@@ -72,15 +71,13 @@ public class safeentryclient {
 	        	    	String formattedCheckInTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
 	        	    	// set location, date & check in time
 	        	    	login.setLocation(inputLocation); login.setDate(LocalDate.now()); login.setCheckInTime(formattedCheckInTime);
-	        	    	// get nric, 
-	        	    	nric = login.getNRIC(); 
 	        	    	// get location, date & check in time
 	        	    	location = login.getLocation(); date = login.getDate(); checkin = login.getCheckInTime();
 	        	    	
-	        	    	if(login.checkIn(nric, location, date.toString(), checkin)==true) {
+	        	    	if(login.checkIn(userNRIC, location, date.toString(), checkin)==true) {
 	        				// display check in details of user
 	        	    		System.out.println("Successfully Checked in");
-	        		    	System.out.println("Name:" + userName + "\nNRIC: "+ nric + "\nLocation: " + location + "\nDate: " + date + "\nCheck in Time : " + checkin);
+	        		    	System.out.println("Name:" + userName + "\nNRIC: "+ userNRIC + "\nLocation: " + location + "\nDate: " + date + "\nCheck in Time : " + checkin);
 	            	    	System.out.println("[O] to Check Out");
 	            	    	userInput = input.nextLine();
 	            	    	// 'O' to check out 
@@ -88,7 +85,7 @@ public class safeentryclient {
 	            	    		String formattedCheckOutTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
 	            	    		login.setCheckOutTime(formattedCheckOutTime);
 	            	    		checkout = login.getCheckOutTime();
-	            	    		if(login.checkOut(nric, location, date.toString(), checkin, checkout)==true) {
+	            	    		if(login.checkOut(userNRIC, location, date.toString(), checkin, checkout)==true) {
 	            	    			System.out.println("Successfully Checked Out");
 	            	    			System.out.println("Location: " + location + "\nDate: " + date + "\nCheck Out Time : " + checkout);
 	            	    			// Back to Main Menu
@@ -124,8 +121,7 @@ public class safeentryclient {
 	        	    	// Input NRIC of people in the group
 	        	    	for(int i=0; i<Integer.parseInt(inputNoOfPeople); i++) {
 	        	    		String groupNric = input.nextLine();
-	        	    		login.setNRIC(groupNric);
-	        	    		nrics.add(login.getNRIC());
+	        	    		nrics.add(groupNric);
 	        	    	}
 	        	    	for (int n=0; n < nrics.size(); n++) {
 	         	    		if(login.checkIn(nrics.get(n), location, date.toString(), checkin)==true) {
@@ -163,7 +159,7 @@ public class safeentryclient {
 	            }
 	            // '2' to View History
 	            else if(userInput.equals("2")) {
-	            	System.out.println(login.viewHistory(login.getNRIC()));
+	            	System.out.println(login.viewHistory(userNRIC));
 	            	//'B' to Back to Main Menu
 	    	    	System.out.println("[B] to back to Main Menu");
 	    	    	userInput = input.nextLine();

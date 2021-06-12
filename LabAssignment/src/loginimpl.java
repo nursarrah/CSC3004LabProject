@@ -14,7 +14,7 @@ import org.json.simple.parser.ParseException;
 
 public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements login {
 	
-	private String name, nric, location, checkedIn, checkedOut;
+	private String name, location, checkedIn, checkedOut;
 	private boolean success = false;
 	LocalDate date;
 	JSONParser parser = new JSONParser();
@@ -47,15 +47,7 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 			e.printStackTrace();
 		}
 		return name;
-	}		
-	    
-    public void setNRIC(String nric) throws java.rmi.RemoteException{
-    	this.nric=nric;
-    }
-	    
-    public String getNRIC() throws java.rmi.RemoteException{
-    	return nric;
-    }
+	}
 
     public void setLocation(String location) throws java.rmi.RemoteException{
     	this.location=location;

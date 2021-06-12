@@ -1,17 +1,10 @@
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 public interface login extends java.rmi.Remote{
 	
 	public String userLogin(String nric)
 			throws java.rmi.RemoteException;
-
-    public void setNRIC(String nric)
-			throws java.rmi.RemoteException;
-	    
-    public String getNRIC()
-        throws java.rmi.RemoteException;
 
     public void setLocation(String location)
 			throws java.rmi.RemoteException;
