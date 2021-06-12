@@ -17,7 +17,6 @@ public class safeentryclient {
                 + "\n1 To Check In"
                 + "\n2 To View History"
                 + "\n3 To View Notification"
-                + "\nb Back To Main Menu"
                 + "\nq To Quit"
                 + "\n";
 	    String nric, location, checkin, checkout;
@@ -130,13 +129,13 @@ public class safeentryclient {
 	        	    	}
 	        	    	for (int n=0; n < nrics.size(); n++) {
 	         	    		if(login.checkIn(nrics.get(n), location, date.toString(), checkin)==true) {
-	                		    System.out.println("\n"+ nrics.get(n));                		    	              		    	
+	                		    System.out.println(nrics.get(n));                		    	              		    	
 	                	    }
 	         	    		else {
 	         	    			System.out.println("Please try again");
 	         	    		}
 	        	    	}
-	        	    	System.out.println("\nSuccessfully Checked in \nLocation: " + location + "\nDate: " + date + "\nCheck in Time : " + checkin);
+	        	    	System.out.println("Successfully Checked in \nLocation: " + location + "\nDate: " + date + "\nCheck in Time : " + checkin);
 	        	    	System.out.println("[O] to Check Out");
 	        	    	userInput = input.nextLine();
 	        	    	// 'O' to Check Out 
@@ -146,10 +145,10 @@ public class safeentryclient {
 	        	    		checkout = login.getCheckOutTime();
 	        	    		for (int count=0; count < nrics.size(); count++) {
 		        	    		if(login.checkOut(nrics.get(count), location, date.toString(), checkin, checkout)==true){
-			        	    			System.out.println("Successfully Checked Out");
+			        	    			System.out.println(nrics.get(count));
 			        	    	}
 	        	    		}
-	        	    		System.out.println("Location: " + location + "\nDate: " + date +  "\nCheck Out Time : " + checkout);
+	        	    		System.out.println("Successfully Checked Out \nLocation: " + location + "\nDate: " + date +  "\nCheck Out Time : " + checkout);
 	        	    		//'B' Back to Main Menu
 	            	    	System.out.println("[B] to back to Main Menu");
 	            	    	userInput = input.nextLine();
