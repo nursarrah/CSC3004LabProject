@@ -6,10 +6,7 @@ import java.io.Reader;
 import java.io.Writer;
 import java.rmi.RemoteException;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Scanner;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -28,11 +25,9 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 	}
 	@SuppressWarnings("unchecked")
 	public String userLogin(String nric) throws java.rmi.RemoteException {
-		String userName = null;
 		try {
 			reader = new FileReader("safeentrydb.json");
 			JSONObject data = (JSONObject) parser.parse(reader);
-			
 			JSONArray client = (JSONArray) data.get("client");
 			
 			// loop through array of client
@@ -41,9 +36,7 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 				String userNRIC = (String) getUser.get("nric");
 				// if nric in database matches user account, add check in details to db
 				if(userNRIC.equals(nric)) {
-					userName = (String) getUser.get("name");
-		        }else {
-		        	userName = "User not in database.";
+					name = (String) getUser.get("name");
 		        }
 			}
 		} catch (FileNotFoundException e) {
@@ -53,17 +46,8 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		return userName;
-
-	}
-		
-	public void setName(String name) throws java.rmi.RemoteException{
-		this.name=name;
-	}
-	
-    public String getName() throws java.rmi.RemoteException{
-    	return name;
-    }
+		return name;
+	}		
 	    
     public void setNRIC(String nric) throws java.rmi.RemoteException{
     	this.nric=nric;

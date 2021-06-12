@@ -6,12 +6,6 @@ public interface login extends java.rmi.Remote{
 	
 	public String userLogin(String nric)
 			throws java.rmi.RemoteException;
-	
-	public void setName(String name)
-			throws java.rmi.RemoteException;
-		
-    public String getName()
-        throws java.rmi.RemoteException;
 
     public void setNRIC(String nric)
 			throws java.rmi.RemoteException;
