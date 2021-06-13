@@ -1,5 +1,3 @@
-
-
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -9,9 +7,6 @@ import java.util.Scanner;
 public class remoteaccessclient {
 	  public static void main(String[] args) {
 		  String location, date, inTime, outTime;
-
-
-//	      //use localhost if running the server locally or use IP address of the server
 	       String reg_host = "localhost";
 	       int reg_port = 1099;
 
@@ -24,13 +19,7 @@ public class remoteaccessclient {
 
 		try {
 
-		    // Create the reference to the remote object through the remiregistry
-//			calculator c = (calculator)
-//					Naming.lookup("rmi://localhost/CalculatorService");
 			remoteaccess remoteaccess = (remoteaccess) Naming.lookup("rmi://localhost/RemoteAccessService");
-
-	      //Naming.lookup("rmi://localhost/CalculatorService");
-			
 			Scanner input = new Scanner(System.in);
 				System.out.println("Please provide necessary input for declaration. ");
 		    	System.out.println("Enter location: ");
@@ -51,13 +40,11 @@ public class remoteaccessclient {
 		    	inTime = remoteaccess.getCheckInTime();
 		    	outTime = remoteaccess.getCheckOutTime();
 		    	System.out.println("The following information has been added to the database: " + location + " " + date + " " + inTime + " " + outTime);
-		    	remoteaccess.addLocationToDB(location, date, inTime, outTime);
+		    	remoteaccess.addDeclarationToDB(location, date, inTime, outTime);
 
 		    
 	  }
 	  // Catch the exceptions that may occur - rubbish URL, Remote exception
-		// Not bound exception or the arithmetic exception that may occur in
-		// one of the methods creates an arithmetic error (e.g. divide by zero)
 		catch (MalformedURLException murle) {
 	            System.out.println();
 	            System.out.println("MalformedURLException");

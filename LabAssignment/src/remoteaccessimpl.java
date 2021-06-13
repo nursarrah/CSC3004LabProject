@@ -51,21 +51,18 @@ public class remoteaccessimpl extends java.rmi.server.UnicastRemoteObject implem
 		return date;
 	}
 	/**
-	 * addLocationToDB method 
+	 * Add declaration information to database, remoteaccessdb,json
 	 * 
+	 *  @param	location			location of the declared covid19 case
+	 *  @param	date				date of the declared covid19 case
+	 *  @param	checkedInTime		check in time of the declared covid19 case
+	 *  @param	checkedOutTime		check out time of the declared covid19 case
+
 	 */
 	@SuppressWarnings("unchecked")
-	public void addLocationToDB(String location, String date, String checkedInTime, String checkedOutTime) throws java.rmi.RemoteException {
+	public void addDeclarationToDB(String location, String date, String checkedInTime, String checkedOutTime) throws java.rmi.RemoteException {
 		
 		JSONObject details = new JSONObject();
-		 
-//			Reader reader = new FileReader("affectedclientsdb.json");
-		
-//    		JSONArray users = (JSONArray) JSONValue.parse(reader);
-//    		JSONObject firstUser = (JSONObject) users.get(0);
-//			
-//    		JSONArray getVisitedlocation = (JSONArray) firstUser.get("visitedlocation");
-//    		JSONObject visitedLocation = new JSONObject();
 		
 		details.put("place", location);
 		details.put("date", date);

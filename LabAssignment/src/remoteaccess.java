@@ -25,7 +25,7 @@ public interface remoteaccess extends java.rmi.Remote {
         throws java.rmi.RemoteException;	
     
     
-    public void addLocationToDB(String location, String date, String checkedInTime, String CheckedOutTime)
+    public void addDeclarationToDB(String location, String date, String checkedInTime, String CheckedOutTime)
     		throws java.rmi.RemoteException;
 
 

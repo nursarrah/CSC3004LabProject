@@ -23,6 +23,12 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 	protected loginimpl() throws RemoteException {
 		super();
 	}
+	/**
+	 * Logs in user with NRIC
+	 * 
+	 *  @param	nric			NRIC of logged in user
+	 *  @return	name			the name corresponding to the NRIC
+	 */
 	@SuppressWarnings("unchecked")
 	public String userLogin(String nric) throws java.rmi.RemoteException {
 		try {
@@ -34,7 +40,7 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 			for(int c = 0; c < client.size(); c++) {
 				JSONObject getUser  = (JSONObject) client.get(c);
 				String userNRIC = (String) getUser.get("nric");
-				// if nric in database matches user account, add check in details to db
+				//if NRIC equals to the input NRIC given by user, retrieve the name.
 				if(userNRIC.equals(nric)) {
 					name = (String) getUser.get("name");
 		        }
@@ -193,16 +199,21 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 			return historyList;
 			
 		}
-		
+		/**
+		 * View notification to check if user were at a place visited by  a Covid19 case for the past 14 days
+		 * 
+		 *  @param	nric			NRIC of logged in user
+		 *  @return	alertMessage	The information to be shown in the notification
+		 */
 		public String notificationFeature(String nric) throws java.rmi.RemoteException{
-			//read remoteaccessdb
-//	        FileReader reader;
 			String alertMessage = null;
 			try {
 				FileReader reader = new FileReader("remoteaccessdb.json");
 				JSONParser jsonParser = new JSONParser();
 		        Object remoteAccessObj;
 				try {
+					
+					//read remoteaccessdb to get location,date and time declared
 					remoteAccessObj = jsonParser.parse(reader);
 					 JSONArray remoteAccessDetails = (JSONArray) remoteAccessObj;
 				     JSONObject detailsObject = (JSONObject)remoteAccessDetails.get(0);
@@ -216,6 +227,7 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 			        LocalDate endDateRange = LocalDate.parse(declaredDate);
 			        LocalDate startDateRange = endDateRange.minusDays(14);
 				    
+			        //read safeentrydb
 				    FileReader safeEntryReader = new FileReader("safeentrydb.json");
 			        JSONParser safeEntryJsonParser = new JSONParser();
 			        JSONObject data = (JSONObject)safeEntryJsonParser.parse(safeEntryReader);
@@ -225,16 +237,18 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 					for(int c = 0; c < client.size(); c++) {
 						JSONObject getUser  = (JSONObject) client.get(c);
 						String userNRIC = (String) getUser.get("nric");
-						// if nric in database matches user account, add check in details to db
+						// if nric in database matches user account, get visited location details
 						if(userNRIC.equals(nric)) {
 							JSONArray visitedLocation = (JSONArray) getUser.get("visitedlocation");
 							
 							for(int i = 0; i < visitedLocation.size(); i++) {
 						        JSONObject getVisitedLocation = (JSONObject) visitedLocation.get(i);				
 								String place = (String) getVisitedLocation.get("place");
+								//if client's visited location is same as declared location, get the date
 								if (place.equals(declaredLocation)) {
 									String date = (String) getVisitedLocation.get("date");
 									LocalDate clientDate = LocalDate.parse(date);
+									//if date us within the range of 14 days from the covid19 case, send the alert message containing the case information
 									if(clientDate.isAfter(startDateRange) || clientDate.isEqual(endDateRange)){
 						        			alertMessage = "You were at a place visited by a covid 19 case." 
 						        							+ "\nCovid 19 patient's case information:"
@@ -245,8 +259,6 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 						        		}else {
 											alertMessage = "No exposure alerts.";
 										}
-								}else {
-									alertMessage = "No exposure alerts.";
 								}
 						}}}}
 				    
