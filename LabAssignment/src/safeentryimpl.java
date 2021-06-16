@@ -12,7 +12,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements login {
+public class safeentryimpl  extends java.rmi.server.UnicastRemoteObject implements safeentry {
 	
 	private String name;
 	private boolean success = false;
@@ -20,7 +20,7 @@ public class loginimpl  extends java.rmi.server.UnicastRemoteObject implements l
 	JSONParser parser = new JSONParser();
 	Reader reader;
 	
-	protected loginimpl() throws RemoteException {
+	protected safeentryimpl() throws RemoteException {
 		super();
 	}
 	/**

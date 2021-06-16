@@ -37,12 +37,14 @@ public class safeentryclient {
 
 	try {
 		
-		login login = (login) Naming.lookup("rmi://localhost/LoginService");
+		safeentry safeEntry = (safeentry) Naming.lookup("rmi://localhost/SafeEntryService");
 		
 		Scanner input = new Scanner(System.in);
 	    System.out.println("Enter NRIC to login");
 	    String userNRIC = input.nextLine();
-	    String userName = login.userLogin(userNRIC);
+	    String userName = safeEntry.userLogin(userNRIC);
+	    
+	    // if user nric exist in database
 	    if(userName!=null) {
 		    System.out.println("Welcome " + userName + ",");
 		    System.out.print(INPUT_PROMPT);	    
@@ -54,6 +56,7 @@ public class safeentryclient {
 	        {
 		    	// 'Q' to quit program
 	            if(userInput.equalsIgnoreCase("Q")) {
+	            	userName = null;
 	                break;
 	            }
 	            // 'B' to back to main menu
@@ -71,7 +74,7 @@ public class safeentryclient {
 	        	    	// set location, date & check in time
 	        	    	setCheckInDetails();
 	        	    	
-	        	    	if(login.checkIn(userNRIC, setLocation, setDate.toString(), setCheckInTime)==true) {
+	        	    	if(safeEntry.checkIn(userNRIC, setLocation, setDate.toString(), setCheckInTime)==true) {
 	        				// display check in details of user
 	        	    		System.out.println("Successfully Checked in");
 	        		    	System.out.println("Name:" + userName + "\nNRIC: "+ userNRIC + "\nLocation: " + setLocation + "\nDate: " + setDate + "\nCheck in Time : " + setCheckInTime);
@@ -80,7 +83,7 @@ public class safeentryclient {
 	            	    	// 'O' to check out 
 	            	    	if(userInput.equalsIgnoreCase("O")) {
 	            	    		setCheckOutDetails();
-	            	    		if(login.checkOut(userNRIC, setLocation, setDate.toString(), setCheckInTime, setCheckOutTime)==true) {
+	            	    		if(safeEntry.checkOut(userNRIC, setLocation, setDate.toString(), setCheckInTime, setCheckOutTime)==true) {
 	            	    			System.out.println("Successfully Checked Out");
 	            	    			System.out.println("Location: " + setLocation + "\nDate: " + setDate + "\nCheck Out Time : " + setCheckOutTime);
 	            	    			// Back to Main Menu
@@ -113,7 +116,7 @@ public class safeentryclient {
 	        	    		nrics.add(groupNric);
 	        	    	}
 	        	    	for (int n=0; n < nrics.size(); n++) {
-	         	    		if(login.checkIn(nrics.get(n), setLocation, setDate.toString(), setCheckInTime)==true) {
+	         	    		if(safeEntry.checkIn(nrics.get(n), setLocation, setDate.toString(), setCheckInTime)==true) {
 	                		    System.out.println(nrics.get(n));                		    	              		    	
 	                	    }
 	         	    		else {
@@ -127,13 +130,14 @@ public class safeentryclient {
 	        	    	if(userInput.equalsIgnoreCase("O")) {
 	        	    		setCheckOutDetails();
 	        	    		for (int count=0; count < nrics.size(); count++) {
-		        	    		if(login.checkOut(nrics.get(count), setLocation, setDate.toString(), setCheckInTime, setCheckOutTime)==true) {
+		        	    		if(safeEntry.checkOut(nrics.get(count), setLocation, setDate.toString(), setCheckInTime, setCheckOutTime)==true) {
 			        	    			System.out.println(nrics.get(count));
 			        	    	}
 	        	    		}
 	        	    		System.out.println("Successfully Checked Out \nLocation: " + setLocation + "\nDate: " + setDate +  "\nCheck Out Time : " + setCheckOutTime);
 	        	    		//'B' Back to Main Menu
 	            	    	System.out.println("[B] to back to Main Menu");
+	            	    	nrics.clear();
 	            	    	userInput = input.nextLine();
 	        	    	}
 	        	    	else {
@@ -146,14 +150,14 @@ public class safeentryclient {
 	            }
 	            // '2' to View History
 	            else if(userInput.equals("2")) {
-	            	System.out.println(login.viewHistory(userNRIC));
+	            	System.out.println(safeEntry.viewHistory(userNRIC));
 	            	//'B' to Back to Main Menu
 	    	    	System.out.println("[B] to back to Main Menu");
 	    	    	userInput = input.nextLine();
 	            }
 	            // '3' to View Notification
 	            else if(userInput.equals("3")) {
-	            	System.out.println(login.notificationFeature(userNRIC));
+	            	System.out.println(safeEntry.notificationFeature(userNRIC));
 	            	// Back to Main Menu
 	    	    	System.out.println("[B] to back to Main Menu");
 	    	    	userInput = input.nextLine();

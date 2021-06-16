@@ -11,8 +11,8 @@ public class safeentryserver {
 //				 calculator c = new calculatorimpl();
 //				 Naming.rebind("rmi://localhost/CalculatorService", c);
 				 
-				 login login = new loginimpl();
-				 Naming.rebind("rmi://localhost/LoginService", login);
+				 safeentry safeEntry = new safeentryimpl();
+				 Naming.rebind("rmi://localhost/SafeEntryService", safeEntry);
 
 	     }
 	     catch (Exception e) {
