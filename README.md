@@ -15,7 +15,7 @@ A lab assessment for Cloud and Distributing Computing Module.
 3. Enter the following input to log in:
     1.  NRIC: S999991D as Jennie  
           OR 
-    3. NRIC:  S999999D as Lalisa
+    2. NRIC:  S999999D as Lalisa
 
 # To Run Remote Access System
 1. Right click remoteaccessserver.java > Run as.. > Java Application (to run as server)
