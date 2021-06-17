@@ -56,7 +56,6 @@ public class safeentryclient {
 	        {
 		    	// 'Q' to quit program
 	            if(userInput.equalsIgnoreCase("Q")) {
-	            	userName = null;
 	                break;
 	            }
 	            // 'B' to back to main menu
@@ -76,16 +75,17 @@ public class safeentryclient {
 	        	    	
 	        	    	if(safeEntry.checkIn(userNRIC, setLocation, setDate.toString(), setCheckInTime)==true) {
 	        				// display check in details of user
-	        	    		System.out.println("Successfully Checked in");
-	        		    	System.out.println("Name:" + userName + "\nNRIC: "+ userNRIC + "\nLocation: " + setLocation + "\nDate: " + setDate + "\nCheck in Time : " + setCheckInTime);
+	        		    	System.out.println("Successfully Checked in \nName:" + userName + 
+	        		    			"\nNRIC: "+ userNRIC + "\nLocation: " + setLocation + 
+	        		    			"\nDate: " + setDate + "\nCheck in Time : " + setCheckInTime);
 	            	    	System.out.println("[O] to Check Out");
 	            	    	userInput = input.nextLine();
 	            	    	// 'O' to check out 
 	            	    	if(userInput.equalsIgnoreCase("O")) {
 	            	    		setCheckOutDetails();
 	            	    		if(safeEntry.checkOut(userNRIC, setLocation, setDate.toString(), setCheckInTime, setCheckOutTime)==true) {
-	            	    			System.out.println("Successfully Checked Out");
-	            	    			System.out.println("Location: " + setLocation + "\nDate: " + setDate + "\nCheck Out Time : " + setCheckOutTime);
+	            	    			System.out.println("Successfully Checked Out \nLocation: " + setLocation + 
+	            	    					"\nDate: " + setDate + "\nCheck Out Time : " + setCheckOutTime);
 	            	    			// Back to Main Menu
 	                    	    	System.out.println("[B] to back to Main Menu");
 	                    	    	userInput = input.nextLine();
@@ -117,7 +117,8 @@ public class safeentryclient {
 	        	    	}
 	        	    	for (int n=0; n < nrics.size(); n++) {
 	         	    		if(safeEntry.checkIn(nrics.get(n), setLocation, setDate.toString(), setCheckInTime)==true) {
-	                		    System.out.println(nrics.get(n));                		    	              		    	
+	                		    // display users nric that successfully checked-in
+	         	    			System.out.println("NRIC: "+nrics.get(n));                		    	              		    	
 	                	    }
 	         	    		else {
 	         	    			System.out.println("Please try again");
@@ -131,12 +132,13 @@ public class safeentryclient {
 	        	    		setCheckOutDetails();
 	        	    		for (int count=0; count < nrics.size(); count++) {
 		        	    		if(safeEntry.checkOut(nrics.get(count), setLocation, setDate.toString(), setCheckInTime, setCheckOutTime)==true) {
-			        	    			System.out.println(nrics.get(count));
+			        	    			System.out.println("NRIC: " +nrics.get(count));
 			        	    	}
 	        	    		}
 	        	    		System.out.println("Successfully Checked Out \nLocation: " + setLocation + "\nDate: " + setDate +  "\nCheck Out Time : " + setCheckOutTime);
 	        	    		//'B' Back to Main Menu
 	            	    	System.out.println("[B] to back to Main Menu");
+	            	    	// remove all nric in an array
 	            	    	nrics.clear();
 	            	    	userInput = input.nextLine();
 	        	    	}

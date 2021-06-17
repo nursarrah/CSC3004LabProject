@@ -28,10 +28,10 @@ public class remoteaccessclient {
 		    	System.out.println("Enter Date(yyyy-mm-dd): ");
 		    	String inputDate = input.nextLine();
 		    	remoteaccess.setDate(inputDate);
-		    	System.out.println("Enter Check In Time: ");
+		    	System.out.println("Enter Check In Time(HH:mm): ");
 		    	String inputCheckInTime = input.nextLine();
 		    	remoteaccess.setCheckInTime(inputCheckInTime);
-		    	System.out.println("Enter Check Out Time: ");
+		    	System.out.println("Enter Check Out Time(HH:mm): ");
 		    	String inputCheckOutTime = input.nextLine();
 		    	remoteaccess.setCheckOutTime(inputCheckOutTime);
 		    			    	

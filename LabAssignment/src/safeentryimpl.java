@@ -160,7 +160,7 @@ public class safeentryimpl  extends java.rmi.server.UnicastRemoteObject implemen
 		return success;
 	}
 	/**
-	 * Check Out user and add Check Out details (check out time) to database (safeentrydb.json)
+	 * Display user history
 	 * 
 	 *  @param	nric			NRIC of logged in user
 	 *  @return	historyList		list of past visited location of logged in user
@@ -206,7 +206,8 @@ public class safeentryimpl  extends java.rmi.server.UnicastRemoteObject implemen
 		 *  @return	alertMessage	The information to be shown in the notification
 		 */
 		public String notificationFeature(String nric) throws java.rmi.RemoteException{
-			String alertMessage = null;
+			// default alert message
+			String alertMessage = "No exposure alerts.";
 			try {
 				FileReader reader = new FileReader("remoteaccessdb.json");
 				JSONParser jsonParser = new JSONParser();
@@ -215,8 +216,8 @@ public class safeentryimpl  extends java.rmi.server.UnicastRemoteObject implemen
 					
 					//read remoteaccessdb to get location,date and time declared
 					remoteAccessObj = jsonParser.parse(reader);
-					 JSONArray remoteAccessDetails = (JSONArray) remoteAccessObj;
-				     JSONObject detailsObject = (JSONObject)remoteAccessDetails.get(0);
+					JSONArray remoteAccessDetails = (JSONArray) remoteAccessObj;
+				    JSONObject detailsObject = (JSONObject)remoteAccessDetails.get(0);
 				    JSONObject details = (JSONObject) detailsObject.get("details");
 				    String declaredLocation = (String) details.get("place");
 				    String declaredDate = (String) details.get("date");
