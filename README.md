@@ -54,6 +54,13 @@ Remote Access System
  
 7. Enter ‘Q’ to logout the SafeEntry program
 
+8. Concurrent Client Access
+    1. Run safeentryclient.java twice to run 2 clients concurrently
+    2. Login details for Client 1: S999991D 
+    3. Login details for Client 2: S999999D
+    4. Check-in & check-out both clients as per step iv.
+    5. Check check-in history for both clients as per step v.
+
 # To Run Remote Access System
 1. Right click remoteaccessserver.java > Run as.. > Java Application (to run as server)
 2. Right click remoteaccessclient.java > Run as.. > Java Application (to run as client)
