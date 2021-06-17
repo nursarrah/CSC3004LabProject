@@ -2,15 +2,11 @@ import java.rmi.Naming;	//Import naming classes to bind to rmiregistry
 
 public class safeentryserver {
 	static int port = 1099;
-	   //calculatorserver constructor
+	   //safeentryserver constructor
 	   public safeentryserver() {
 
 			 try {
-			 		//Construct a new CalculatorImpl object and bind it to the local rmiregistry
-	     		//N.b. it is possible to host multiple objects on a server
-//				 calculator c = new calculatorimpl();
-//				 Naming.rebind("rmi://localhost/CalculatorService", c);
-				 
+			 	//Construct a new safeentryimpl object and bind it to the local rmiregistry
 				 safeentry safeEntry = new safeentryimpl();
 				 Naming.rebind("rmi://localhost/SafeEntryService", safeEntry);
 
@@ -21,7 +17,7 @@ public class safeentryserver {
 	   }
 
 	   public static void main(String args[]) {
-	     	//Create the new Calculator server
+	     	//Create the new SafeEntry server
 				if (args.length == 1)
 					port = Integer.parseInt(args[0]);
 					new safeentryserver();

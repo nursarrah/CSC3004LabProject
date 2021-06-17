@@ -72,7 +72,7 @@ public class safeentryclient {
 	        	    		        	    	
 	        	    	// set location, date & check in time
 	        	    	setCheckInDetails();
-	        	    	
+	        	    	// if check-in details successfully added to db
 	        	    	if(safeEntry.checkIn(userNRIC, setLocation, setDate.toString(), setCheckInTime)==true) {
 	        				// display check in details of user
 	        		    	System.out.println("Successfully Checked in \nName:" + userName + 
@@ -83,6 +83,7 @@ public class safeentryclient {
 	            	    	// 'O' to check out 
 	            	    	if(userInput.equalsIgnoreCase("O")) {
 	            	    		setCheckOutDetails();
+	            	    		// if check-out time updated in db
 	            	    		if(safeEntry.checkOut(userNRIC, setLocation, setDate.toString(), setCheckInTime, setCheckOutTime)==true) {
 	            	    			System.out.println("Successfully Checked Out \nLocation: " + setLocation + 
 	            	    					"\nDate: " + setDate + "\nCheck Out Time : " + setCheckOutTime);
@@ -116,6 +117,7 @@ public class safeentryclient {
 	        	    		nrics.add(groupNric);
 	        	    	}
 	        	    	for (int n=0; n < nrics.size(); n++) {
+	        	    		// if check-in details successfully added to db
 	         	    		if(safeEntry.checkIn(nrics.get(n), setLocation, setDate.toString(), setCheckInTime)==true) {
 	                		    // display users nric that successfully checked-in
 	         	    			System.out.println("NRIC: "+nrics.get(n));                		    	              		    	
@@ -131,6 +133,7 @@ public class safeentryclient {
 	        	    	if(userInput.equalsIgnoreCase("O")) {
 	        	    		setCheckOutDetails();
 	        	    		for (int count=0; count < nrics.size(); count++) {
+	        	    			// if check-out time updated in db
 		        	    		if(safeEntry.checkOut(nrics.get(count), setLocation, setDate.toString(), setCheckInTime, setCheckOutTime)==true) {
 			        	    			System.out.println("NRIC: " +nrics.get(count));
 			        	    	}
@@ -197,6 +200,7 @@ public class safeentryclient {
             System.out.println(ae);
         }
     }
+	// set check-in location, date & time details
     public static void setCheckInDetails() {
     	Scanner input = new Scanner(System.in);
     	System.out.println("Enter location: ");
@@ -206,6 +210,7 @@ public class safeentryclient {
     	setDate = LocalDate.now();
     	
     }
+    // set check-out time
     public static void setCheckOutDetails() {
     	setCheckOutTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
     }

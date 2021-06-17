@@ -105,7 +105,7 @@ public class safeentryimpl  extends java.rmi.server.UnicastRemoteObject implemen
 		return success;
 	}
 	/**
-	 * Check Out user and add Check Out details (check out time) to database (safeentrydb.json)
+	 * Check Out user and update Check Out details (check out time) to database (safeentrydb.json)
 	 * 
 	 *  @param	nric			NRIC of logged in user
 	 *  @param	location		checked in location 
