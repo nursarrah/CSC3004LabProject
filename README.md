@@ -48,7 +48,8 @@ Remote Access System
 6. View Notification
     1. Enter ‘3’ to View Notification for possible exposure.
     2. Enter ‘B’ to back to Main Menu
-    3. Enter ‘Q’ to logout the SafeEntry program
+ 
+7. Enter ‘Q’ to logout the SafeEntry program
 
 # To Run Remote Access System
 1. Right click remoteaccessserver.java > Run as.. > Java Application (to run as server)
