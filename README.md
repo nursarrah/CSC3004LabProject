@@ -2,6 +2,19 @@
 
 A lab assessment for Cloud and Distributing Computing Module.
 
+# Source code listings:
+SafeEntry System
+1. Safeentry.java – SafeEntry interface
+2. Safeentryimpl.java – Implementation of the SafeEntry Remote Service
+3. Safeentryserver.java – SafeEntry Host Server
+4. Safeentryclient.java – SafeEntry Client program
+
+Remote Access System
+1. Remoteaccess.java – Remote Access Interface
+2. Remoteaccessimpl.java – Implementation of the Remote Access Service
+3. Remoteaccessserver.java – Remote Access Host Server
+4. Remoteaccessclient.java – Remote Access Client program 
+
 # Getting Started
 1. Prerequisites : Java Version: 16
 2. File > Import project > Import Existing Projects
