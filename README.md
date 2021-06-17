@@ -1,6 +1,9 @@
 # CSC3004 : Lab Assessment
 
-A lab assessment for Cloud and Distributing Computing Module.
+A lab assessment for Cloud and Distributing Computing Module.\
+For a better readibility, do visit the following repository:\
+https://github.com/nursarrah/CSC3004LabProject.git 
+
 
 # Source code listings:
 SafeEntry System
